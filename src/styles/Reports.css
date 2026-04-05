@@ -1,0 +1,215 @@
+/* Reports.css */
+
+.reports-page {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.filters-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-select {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .filter-select {
+  background-color: #374151;
+  border-color: #4B5563;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(11, 93, 59, 0.1);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .summary-card {
+  background-color: var(--dark-card);
+  border-color: #4B5563;
+}
+
+.summary-card.success {
+  border-color: #22C55E;
+  background-color: #DCFCE7;
+}
+
+.summary-card.warning {
+  border-color: #F59E0B;
+  background-color: #FEF3C7;
+}
+
+.summary-card.danger {
+  border-color: #EF4444;
+  background-color: #FEE2E2;
+}
+
+body.dark-mode .summary-card.success {
+  background-color: rgba(34, 197, 94, 0.1);
+}
+
+body.dark-mode .summary-card.warning {
+  background-color: rgba(245, 158, 11, 0.1);
+}
+
+body.dark-mode .summary-card.danger {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.summary-card.highlight {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  border-color: var(--primary);
+}
+
+body.dark-mode .summary-card.highlight {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+}
+
+.summary-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-card.success .summary-label,
+.summary-card.warning .summary-label,
+.summary-card.danger .summary-label {
+  color: var(--text-primary);
+}
+
+.summary-card.highlight .summary-label {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.summary-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.summary-card.success .summary-value {
+  color: #065F46;
+}
+
+.summary-card.warning .summary-value {
+  color: #92400E;
+}
+
+.summary-card.danger .summary-value {
+  color: #7F1D1D;
+}
+
+.summary-card.highlight .summary-value {
+  color: white;
+}
+
+.report-table-wrapper {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .report-table-wrapper {
+  background-color: var(--dark-card);
+  border-color: #4B5563;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.report-table th {
+  background-color: var(--background);
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+body.dark-mode .report-table th {
+  background-color: #4B5563;
+  border-bottom-color: #374151;
+}
+
+.report-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+body.dark-mode .report-table td {
+  border-bottom-color: #4B5563;
+}
+
+.report-table tbody tr:hover {
+  background-color: var(--background);
+}
+
+body.dark-mode .report-table tbody tr:hover {
+  background-color: #4B5563;
+}
+
+.emp-name {
+  font-weight: 600;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(11, 93, 59, 0.3);
+}

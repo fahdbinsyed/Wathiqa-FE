@@ -1,0 +1,65 @@
+/* NotFound.css */
+
+.not-found-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--background), #FFFFFF);
+  padding: 2rem;
+}
+
+body.dark-mode .not-found-page {
+  background: linear-gradient(135deg, var(--dark-bg), var(--dark-card));
+}
+
+.not-found-container {
+  text-align: center;
+  max-width: 500px;
+}
+
+.not-found-icon {
+  font-size: 6rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+}
+
+.not-found-title {
+  margin: 0 0 1rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.not-found-description {
+  margin: 0 0 2rem 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(11, 93, 59, 0.3);
+}

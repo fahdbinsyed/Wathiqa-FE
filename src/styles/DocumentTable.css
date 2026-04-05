@@ -1,0 +1,169 @@
+/* DocumentTable.css */
+
+.document-table-wrapper {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .document-table-wrapper {
+  background-color: var(--dark-card);
+  border-color: #4B5563;
+}
+
+.document-table-scroll {
+  overflow-x: auto;
+}
+
+.document-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.document-table th {
+  background-color: var(--background);
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+body.dark-mode .document-table th {
+  background-color: #4B5563;
+  border-bottom-color: #374151;
+}
+
+.document-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+body.dark-mode .document-table td {
+  border-bottom-color: #4B5563;
+}
+
+.document-table tbody tr:hover {
+  background-color: var(--background);
+}
+
+body.dark-mode .document-table tbody tr:hover {
+  background-color: #4B5563;
+}
+
+.mono {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.days-remaining {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.days-remaining.expired {
+  background-color: #FEE2E2;
+  color: #7F1D1D;
+}
+
+.days-remaining.expiring {
+  background-color: #FEF3C7;
+  color: #92400E;
+}
+
+.days-remaining.valid {
+  background-color: #DCFCE7;
+  color: #065F46;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.action-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+}
+
+.action-btn.edit-btn:hover {
+  border-color: var(--status-expiring);
+  color: var(--status-expiring);
+  background-color: var(--status-expiring) + '08';
+}
+
+.action-btn.delete-btn:hover {
+  border-color: var(--status-expired);
+  color: var(--status-expired);
+  background-color: var(--status-expired) + '08';
+}
+
+.table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+body.dark-mode .table-pagination {
+  border-top-color: #4B5563;
+}
+
+.pagination-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: var(--background);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  min-width: 150px;
+  text-align: center;
+}

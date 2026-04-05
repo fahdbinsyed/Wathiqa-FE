@@ -1,0 +1,96 @@
+/* DashboardCard.css */
+
+.dashboard-card {
+  background-color: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .dashboard-card {
+  background-color: var(--dark-card);
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.dashboard-card-primary .card-icon {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+}
+
+.dashboard-card-success .card-icon {
+  background: linear-gradient(135deg, #22C55E, #16A34A);
+}
+
+.dashboard-card-warning .card-icon {
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+
+.dashboard-card-danger .card-icon {
+  background: linear-gradient(135deg, #EF4444, #DC2626);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+}
+
+.card-trend {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+}
+
+.card-trend.up {
+  background-color: #DCFCE7;
+  color: #065F46;
+}
+
+.card-trend.down {
+  background-color: #FEE2E2;
+  color: #7F1D1D;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-value {
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.card-description {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}

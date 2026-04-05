@@ -1,0 +1,13 @@
+/* DocumentForm.css */
+
+.document-form {
+  padding: 1.5rem;
+}
+
+.document-form-modal {
+  animation: slideInUp 0.3s ease-out;
+}
+
+textarea {
+  resize: vertical;
+}

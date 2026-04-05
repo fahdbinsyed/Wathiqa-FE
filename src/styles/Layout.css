@@ -1,0 +1,41 @@
+/* Layout.css */
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+body.dark-mode .layout {
+  background-color: var(--dark-bg);
+}
+
+.layout-main {
+  flex: 1;
+  margin-left: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-content {
+  flex: 1;
+  margin-top: 70px;
+  overflow: auto;
+}
+
+.layout-wrapper {
+  padding: 2rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .layout-main {
+    margin-left: 0;
+  }
+
+  .layout-wrapper {
+    padding: 1.5rem 1rem;
+  }
+}
