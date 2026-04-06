@@ -106,15 +106,14 @@ const Login = () => {
 
           <div className="login-divider">or</div>
 
-          <button type="button" className="demo-btn" onClick={handleDemoLogin}>
-            Demo Login
-          </button>
+          <div className="demo-login">
+            <button type="button" className="demo-btn" onClick={handleDemoLogin}>
+              Demo Login
+            </button>
+</div>
 
-          <div className="login-footer">
-            <p>Demo credentials:</p>
-            <p className="demo-creds">Email: admin@company.com | Password: demo123</p>
-          </div>
-        </div>
+</div>
+        
       </div>
 
       {/* <div className="login-features">
