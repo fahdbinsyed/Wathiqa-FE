@@ -72,13 +72,13 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
 
       <div className="navbar-right">
         {/* Theme Toggle */}
-        <button
+        {/* <button
           className="navbar-icon-btn"
           onClick={toggleDarkMode}
           title={isDarkMode ? 'Light Mode' : 'Dark Mode'}
         >
           {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-        </button>
+        </button> */}
 
         {/* Language Toggle */}
         <button

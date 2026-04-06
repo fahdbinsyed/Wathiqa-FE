@@ -23,7 +23,7 @@ const Settings = () => {
       reminderDays: 'Document Expiry Reminder',
       reminderDaysDesc: 'Number of days before expiry to show alert',
       days: 'days',
-      darkMode: 'Dark Mode',
+      // darkMode: 'Dark Mode',
       darkModeDesc: 'Enable dark theme for better visibility at night',
       language: 'Language',
       languageDesc: 'Choose your preferred language',
@@ -45,7 +45,7 @@ const Settings = () => {
       reminderDays: 'تنبيه انتهاء صلاحية المستند',
       reminderDaysDesc: 'عدد الأيام قبل انتهاء الصلاحية لإظهار التنبيه',
       days: 'يوماً',
-      darkMode: 'الوضع الليلي',
+      // darkMode: 'الوضع الليلي',
       darkModeDesc: 'تفعيل المظهر الداكن لرؤية أفضل في الليل',
       language: 'اللغة',
       languageDesc: 'اختر لغتك المفضلة',
@@ -118,7 +118,7 @@ const Settings = () => {
         <div className="settings-section">
           <h2>{t.appearance}</h2>
 
-          <div className="setting-item">
+          {/* <div className="setting-item">
             <div className="setting-info">
               <label>{t.darkMode}</label>
               <p>{t.darkModeDesc}</p>
@@ -129,7 +129,7 @@ const Settings = () => {
             >
               <span className="toggle-thumb" />
             </button>
-          </div>
+          </div> */}
 
           <div className="setting-item">
             <div className="setting-info">

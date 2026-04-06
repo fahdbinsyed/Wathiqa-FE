@@ -150,9 +150,9 @@ const Dashboard = () => {
         />
       </div>
 
-      {/* Charts */}
+      {/* 
       <div className="charts-grid">
-        {/* Status Distribution */}
+        {/* Status Distribution * /}
         <div className="chart-card">
           <h3>{t.documentStatus}</h3>
           <div className="chart-container">
@@ -182,7 +182,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Department Compliance */}
+        {/* Department Compliance * /}
         <div className="chart-card">
           <h3>{t.departmentCompliance}</h3>
           <div className="chart-container">
@@ -202,6 +202,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      */}
 
       {/* Expiring Documents Table */}
       <div className="expiring-section">
@@ -222,7 +223,7 @@ const Dashboard = () => {
                 {expiringDocuments.map((doc) => (
                   <tr key={doc.documentId}>
                     <td className="emp-name">{getEmployeeName(doc.employeeId)}</td>
-                    <td>{doc.documentType}</td>
+                    <td>{doc.documentType ?? "Null"}</td>
                     <td>{formatDateToDisplay(doc.expiryDate)}</td>
                     <td>
                       <span className="days-badge">
