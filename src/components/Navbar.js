@@ -58,7 +58,7 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
           <Menu size={24} />
         </button>
 
-        <div className="navbar-search">
+        {/* <div className="navbar-search">
         <Search size={18} className="navbar-search-icon" />
         <input
             type="text"
@@ -67,7 +67,7 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
             onChange={(e) => onSearchChange(e.target.value)}
             className="navbar-search-input"
         />
-        </div>
+        </div> */}
       </div>
 
       <div className="navbar-right">
