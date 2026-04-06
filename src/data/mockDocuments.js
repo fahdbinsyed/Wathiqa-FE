@@ -15,7 +15,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_ahmed_001.pdf",
     notes: "Iqama renewing soon",
-    status: "Expiring Soon"
   },
   {
     documentId: "DOC002",
@@ -27,7 +26,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Ministry of Foreign Affairs",
     documentFile: "passport_ahmed_001.pdf",
     notes: "Passport expires very soon",
-    status: "Expiring Soon"
   },
   {
     documentId: "DOC003",
@@ -39,7 +37,6 @@ export const mockDocuments = [
     issuingAuthority: "AXA Insurance",
     documentFile: "insurance_ahmed_001.pdf",
     notes: "Medical insurance valid",
-    status: "Valid"
   },
   {
     documentId: "DOC004",
@@ -51,8 +48,7 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Traffic Department",
     documentFile: "license_ahmed_001.pdf",
     notes: "License expired",
-    status: "Expired"
-  },
+    },
   
   // Ali Hassan documents
   {
@@ -65,7 +61,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_ali_001.pdf",
     notes: "Valid Iqama",
-    status: "Valid"
   },
   {
     documentId: "DOC006",
@@ -77,7 +72,6 @@ export const mockDocuments = [
     issuingAuthority: "Riyadh Municipality",
     documentFile: "baladiya_ali_001.pdf",
     notes: "Valid Baladiya Card",
-    status: "Valid"
   },
   {
     documentId: "DOC007",
@@ -89,7 +83,6 @@ export const mockDocuments = [
     issuingAuthority: "Bupa Insurance",
     documentFile: "insurance_ali_001.pdf",
     notes: "Insurance expired",
-    status: "Expired"
   },
   {
     documentId: "DOC008",
@@ -101,7 +94,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Ministry of Foreign Affairs",
     documentFile: "passport_ali_001.pdf",
     notes: "Valid passport",
-    status: "Valid"
   },
   
   // Omar Farooq documents
@@ -115,7 +107,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_omar_001.pdf",
     notes: "Iqama expiring in 45 days",
-    status: "Valid"
   },
   {
     documentId: "DOC010",
@@ -127,7 +118,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "visa_omar_001.pdf",
     notes: "Work visa expiring soon",
-    status: "Expiring Soon"
   },
   {
     documentId: "DOC011",
@@ -139,7 +129,6 @@ export const mockDocuments = [
     issuingAuthority: "Company HR",
     documentFile: "contract_omar_001.pdf",
     notes: "Employment contract",
-    status: "Valid"
   },
   {
     documentId: "DOC012",
@@ -151,7 +140,6 @@ export const mockDocuments = [
     issuingAuthority: "Medgulf Insurance",
     documentFile: "insurance_omar_001.pdf",
     notes: "Valid medical insurance",
-    status: "Valid"
   },
   
   // Yusuf Ali documents
@@ -165,7 +153,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_yusuf_001.pdf",
     notes: "Valid Iqama",
-    status: "Valid"
   },
   {
     documentId: "DOC014",
@@ -177,7 +164,6 @@ export const mockDocuments = [
     issuingAuthority: "Egyptian Ministry of Foreign Affairs",
     documentFile: "passport_yusuf_001.pdf",
     notes: "Passport expired",
-    status: "Expired"
   },
   {
     documentId: "DOC015",
@@ -189,8 +175,7 @@ export const mockDocuments = [
     issuingAuthority: "Riyadh Municipality",
     documentFile: "baladiya_yusuf_001.pdf",
     notes: "Valid Baladiya Card",
-    status: "Valid"
-  },
+},
   {
     documentId: "DOC016",
     employeeId: "EMP004",
@@ -201,7 +186,6 @@ export const mockDocuments = [
     issuingAuthority: "AXA Insurance",
     documentFile: "insurance_yusuf_001.pdf",
     notes: "Valid medical insurance",
-    status: "Valid"
   },
   {
     documentId: "DOC017",
@@ -213,7 +197,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Traffic Department",
     documentFile: "license_yusuf_001.pdf",
     notes: "Valid driving license",
-    status: "Valid"
   },
   
   // Ibrahim Malik documents
@@ -227,7 +210,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_ibrahim_001.pdf",
     notes: "Valid Iqama",
-    status: "Valid"
   },
   {
     documentId: "DOC019",
@@ -239,7 +221,6 @@ export const mockDocuments = [
     issuingAuthority: "Bupa Insurance",
     documentFile: "insurance_ibrahim_001.pdf",
     notes: "Valid medical insurance",
-    status: "Valid"
   },
   {
     documentId: "DOC020",
@@ -251,7 +232,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Ministry of Foreign Affairs",
     documentFile: "passport_ibrahim_001.pdf",
     notes: "Valid passport",
-    status: "Valid"
   },
   
   // Fatima Al-Dosari documents
@@ -265,7 +245,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_fatima_001.pdf",
     notes: "Valid Iqama",
-    status: "Valid"
   },
   {
     documentId: "DOC022",
@@ -277,7 +256,6 @@ export const mockDocuments = [
     issuingAuthority: "Medgulf Insurance",
     documentFile: "insurance_fatima_001.pdf",
     notes: "Valid medical insurance",
-    status: "Valid"
   },
   {
     documentId: "DOC023",
@@ -289,8 +267,7 @@ export const mockDocuments = [
     issuingAuthority: "Riyadh Municipality",
     documentFile: "baladiya_fatima_001.pdf",
     notes: "New Baladiya Card",
-    status: "Valid"
-  },
+},
   
   // Hana Al-Sharif documents
   {
@@ -303,7 +280,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_hana_001.pdf",
     notes: "Iqama renewing soon",
-    status: "Expiring Soon"
   },
   {
     documentId: "DOC025",
@@ -315,7 +291,6 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Ministry of Foreign Affairs",
     documentFile: "passport_hana_001.pdf",
     notes: "Valid passport",
-    status: "Valid"
   },
   {
     documentId: "DOC026",
@@ -327,7 +302,6 @@ export const mockDocuments = [
     issuingAuthority: "AXA Insurance",
     documentFile: "insurance_hana_001.pdf",
     notes: "Valid medical insurance",
-    status: "Valid"
   },
   
   // Mohammed Saeed documents
@@ -341,8 +315,7 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_mohammed_001.pdf",
     notes: "Valid Iqama",
-    status: "Valid"
-  },
+},
   {
     documentId: "DOC028",
     employeeId: "EMP008",
@@ -353,8 +326,7 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "visa_mohammed_001.pdf",
     notes: "Work visa expired",
-    status: "Expired"
-  },
+    },
   {
     documentId: "DOC029",
     employeeId: "EMP008",
@@ -365,8 +337,7 @@ export const mockDocuments = [
     issuingAuthority: "Bupa Insurance",
     documentFile: "insurance_mohammed_001.pdf",
     notes: "Valid medical insurance",
-    status: "Valid"
-  },
+},
   
   // Noor Hassan documents
   {
@@ -379,8 +350,7 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_noor_001.pdf",
     notes: "Valid Iqama",
-    status: "Valid"
-  },
+},
   {
     documentId: "DOC031",
     employeeId: "EMP009",
@@ -391,8 +361,7 @@ export const mockDocuments = [
     issuingAuthority: "Medgulf Insurance",
     documentFile: "insurance_noor_001.pdf",
     notes: "Valid medical insurance",
-    status: "Valid"
-  },
+},
   {
     documentId: "DOC032",
     employeeId: "EMP009",
@@ -403,6 +372,5 @@ export const mockDocuments = [
     issuingAuthority: "Company HR",
     documentFile: "contract_noor_001.pdf",
     notes: "Employment contract",
-    status: "Valid"
-  }
+ }
 ];
