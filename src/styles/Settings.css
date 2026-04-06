@@ -154,15 +154,26 @@ body.dark-mode .language-btn {
 }
 
 .save-notification {
+  position: fixed;      
+  top: 80px;          
+  right: 20px;        
+
   background-color: #DCFCE7;
   border: 1px solid #22C55E;
   color: #065F46;
-  padding: 1rem;
+
+  padding: 1rem 1.25rem;
   border-radius: 8px;
-  margin-bottom: 2rem;
+
   font-weight: 500;
   animation: slideInDown 0.3s ease-out;
+
+  z-index: 9999;        /* appear above other elements */
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+
+  min-width: 250px;
 }
+
 
 @keyframes slideInDown {
   from {
