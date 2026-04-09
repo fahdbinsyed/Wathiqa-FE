@@ -114,17 +114,6 @@ const Dashboard = () => {
     return emp ? emp.fullName : 'Unknown';
   };
 
-  const getDocumentStatus = (expiryDate) => {
-    const today = new Date();
-    const expDate = new Date(expiryDate);
-    const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
-
-    if (diffDays < 0) return "Expired";
-    if (diffDays <= 30) return "Expiring Soon";
-
-    return "Valid";
-  };
-  
   return (
     <div className="dashboard-page">
       <PageHeader
@@ -141,12 +130,12 @@ const Dashboard = () => {
           icon={Users}
           color="primary"
         />
-        <DashboardCard
+        {/* <DashboardCard
           title={t.totalDocuments}
           value={stats.totalDocuments}
           icon={FileText}
           color="primary"
-        />
+        /> */}
         <DashboardCard
           title={t.expiringDocuments}
           value={stats.expiringDocuments}
@@ -242,7 +231,7 @@ const Dashboard = () => {
                       </span>
                     </td>
                     <td>
-                      <StatusBadge status={getDocumentStatus(doc.expiryDate)} size="small" />
+                      <StatusBadge status={doc.status} size="small" />
                     </td>
                   </tr>
                 ))}

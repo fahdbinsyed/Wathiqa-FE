@@ -2,10 +2,12 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Trash2, Edit2 } from 'lucide-react';
 import StatusBadge from './StatusBadge';
+import { useSettings } from '../hooks/useSettings';
 import { formatDate, calculateDaysRemaining } from '../utils/dateUtils';
 import '../styles/DocumentTable.css';
 
 const DocumentTable = ({ documents, employees, onEdit, onDelete }) => {
+  const { reminderDays } = useSettings();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
@@ -62,7 +64,7 @@ const DocumentTable = ({ documents, employees, onEdit, onDelete }) => {
                   <td className="mono">{document.documentNumber}</td>
                   <td>{formatDate(document.expiryDate)}</td>
                   <td>
-                    <span className={`days-remaining ${daysRemaining < 0 ? 'expired' : daysRemaining < 60 ? 'expiring' : 'valid'}`}>
+                    <span className={`days-remaining ${daysRemaining < 0 ? 'expired' : daysRemaining <= reminderDays ? 'expiring' : 'valid'}`}>
                       {daysRemaining < 0 ? `${Math.abs(daysRemaining)} days ago` : `${daysRemaining} days`}
                     </span>
                   </td>

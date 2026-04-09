@@ -11,6 +11,11 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     return saved ? JSON.parse(saved) : mockDocuments;
   });
 
+  const [readNotifications, setReadNotifications] = useState(() => {
+    const saved = localStorage.getItem('readNotifications');
+    return saved ? JSON.parse(saved) : [];
+  });
+
   // Memoize documents with calculated status based on reminderDays
   const documents = useMemo(() => {
     return rawDocuments.map(doc => ({
@@ -22,6 +27,10 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
   useEffect(() => {
     localStorage.setItem('documents', JSON.stringify(rawDocuments));
   }, [rawDocuments]);
+
+  useEffect(() => {
+    localStorage.setItem('readNotifications', JSON.stringify(readNotifications));
+  }, [readNotifications]);
 
   const addDocument = useCallback((document) => {
     const newDocument = {
@@ -88,6 +97,27 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     return documents.filter(doc => doc.status === 'Valid');
   }, [documents]);
 
+  const notifications = useMemo(() => {
+    return documents
+      .filter(doc => doc.status === 'Expiring Soon')
+      .map(doc => ({
+        ...doc,
+        read: readNotifications.includes(doc.documentId)
+      }));
+  }, [documents, readNotifications]);
+
+  const unreadNotifications = useMemo(() => notifications.filter(notification => !notification.read), [notifications]);
+
+  const markNotificationRead = useCallback((documentId) => {
+    setReadNotifications((prev) =>
+      prev.includes(documentId) ? prev : [...prev, documentId]
+    );
+  }, []);
+
+  const markAllNotificationsRead = useCallback(() => {
+    setReadNotifications(notifications.map((notification) => notification.documentId));
+  }, [notifications]);
+
   const getDocumentTypes = useCallback(() => {
     const types = new Set(documents.map(doc => doc.documentType));
     return Array.from(types);
@@ -107,7 +137,11 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     getExpiringDocuments,
     getExpiredDocuments,
     getValidDocuments,
-    getDocumentTypes
+    getDocumentTypes,
+    notifications,
+    unreadNotifications,
+    markNotificationRead,
+    markAllNotificationsRead
   };
 
   return (

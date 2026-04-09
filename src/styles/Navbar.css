@@ -255,6 +255,27 @@ body.dark-mode .notification-item:hover {
   background-color: #4B5563;
 }
 
+.notification-item.read {
+  opacity: 0.65;
+}
+
+.notification-item.read .notification-dot {
+  background-color: #D1D5DB;
+}
+
+.mark-read-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mark-read-btn:hover {
+  text-decoration: underline;
+}
+
 .notification-dot {
   width: 8px;
   height: 8px;

@@ -29,6 +29,11 @@ export const SettingsProvider = ({ children }) => {
     return saved || null;
   });
 
+  const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
+    const saved = localStorage.getItem('notificationsEnabled');
+    return saved ? JSON.parse(saved) : true;
+  });
+
   // Save to localStorage whenever settings change
   useEffect(() => {
     localStorage.setItem('reminderDays', reminderDays);
@@ -70,7 +75,9 @@ export const SettingsProvider = ({ children }) => {
     companyName,
     setCompanyName,
     companyLogo,
-    setCompanyLogo
+    setCompanyLogo,
+    notificationsEnabled,
+    setNotificationsEnabled
   };
 
   return (
