@@ -5,6 +5,10 @@ import { AuthProvider } from './context/AuthContext';
 import { SettingsProvider } from './context/SettingsContext';
 import { EmployeeProvider } from './context/EmployeeContext';
 import { DocumentProvider } from './context/DocumentContext';
+import { CompanyDocumentProvider } from './context/CompanyDocumentContext';
+import { VehicleProvider } from './context/VehicleContext';
+import { VehicleDocumentProvider } from './context/VehicleDocumentContext';
+import { ActivityLogProvider } from './context/ActivityLogContext';
 import { useAuth } from './hooks/useAuth';
 import { useSettings } from './hooks/useSettings';
 
@@ -16,6 +20,7 @@ import EmployeeProfile from './pages/EmployeeProfile';
 import Documents from './pages/Documents';
 import Reports from './pages/Reports';
 import Settings from './pages/Settings';
+import ActivityLogs from './pages/ActivityLogs';
 import NotFound from './pages/NotFound';
 
 // Components
@@ -41,9 +46,13 @@ const AppContent = () => {
 
   return (
     <DocumentProvider reminderDays={reminderDays}>
-      <Layout searchQuery={searchQuery} onSearchChange={setSearchQuery}>
-        <Routes>
-          <Route path="/login" element={<Login />} />
+      <CompanyDocumentProvider reminderDays={reminderDays}>
+        <VehicleProvider>
+          <VehicleDocumentProvider reminderDays={reminderDays}>
+            <ActivityLogProvider>
+              <Layout searchQuery={searchQuery} onSearchChange={setSearchQuery}>
+                <Routes>
+                  <Route path="/login" element={<Login />} />
           
           <Route
             path="/dashboard"
@@ -99,10 +108,23 @@ const AppContent = () => {
             }
           />
           
+          <Route
+            path="/activity-logs"
+            element={
+              <ProtectedRoute>
+                <ActivityLogs />
+              </ProtectedRoute>
+            }
+          />
+          
           <Route path="/" element={<Navigate to={isLoggedIn ? '/dashboard' : '/login'} replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
+            </ActivityLogProvider>
+          </VehicleDocumentProvider>
+        </VehicleProvider>
+      </CompanyDocumentProvider>
     </DocumentProvider>
   );
 };

@@ -10,7 +10,8 @@ import {
   LogOut,
   Menu,
   X,
-  ChevronDown
+  ChevronDown,
+  Activity
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useSettings } from '../hooks/useSettings';
@@ -28,6 +29,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       documents: 'Documents',
       reports: 'Reports',
       settings: 'Settings',
+      activityLogs: 'Activity Logs',
       logout: 'Logout',
       menu: 'Menu'
     },
@@ -37,6 +39,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       documents: 'المستندات',
       reports: 'التقارير',
       settings: 'الإعدادات',
+      activityLogs: 'سجلات الأنشطة',
       logout: 'تسجيل الخروج',
       menu: 'القائمة'
     }
@@ -49,6 +52,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     { icon: Users, label: t.employees, path: '/employees', key: 'employees' },
     { icon: FileText, label: t.documents, path: '/documents', key: 'documents' },
     { icon: BarChart3, label: t.reports, path: '/reports', key: 'reports' },
+    { icon: Activity, label: t.activityLogs, path: '/activity-logs', key: 'activity-logs' },
     { icon: Settings, label: t.settings, path: '/settings', key: 'settings' }
   ];
 

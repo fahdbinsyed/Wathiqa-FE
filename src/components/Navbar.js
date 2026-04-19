@@ -7,7 +7,8 @@ import {
   LogOut,
   Sun,
   Moon,
-  Globe
+  Globe,
+  MapPin
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useSettings } from '../hooks/useSettings';
@@ -18,7 +19,7 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const { logout, currentUser } = useAuth();
-  const { isDarkMode, toggleDarkMode, language, toggleLanguage, notificationsEnabled } = useSettings();
+  const { isDarkMode, toggleDarkMode, language, toggleLanguage, notificationsEnabled, selectedBranch, setSelectedBranch } = useSettings();
   const { notifications, unreadNotifications, markNotificationRead, markAllNotificationsRead } = useDocuments();
 
   const notificationRef = useRef(null);
@@ -97,14 +98,22 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
       </div>
 
       <div className="navbar-right">
-        {/* Theme Toggle */}
-        {/* <button
-          className="navbar-icon-btn"
-          onClick={toggleDarkMode}
-          title={isDarkMode ? 'Light Mode' : 'Dark Mode'}
-        >
-          {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-        </button> */}
+        {/* Branch Selector */}
+        <div className="navbar-branch-selector">
+          <MapPin size={16} className="navbar-branch-icon" />
+          <select
+            value={selectedBranch}
+            onChange={(e) => setSelectedBranch(e.target.value)}
+            className="navbar-branch-select"
+            title="Select Branch"
+          >
+            <option value="All">All Branches</option>
+            <option value="BR001">Riyadh</option>
+            <option value="BR002">Dammam</option>
+            <option value="BR003">Jeddah</option>
+            <option value="BR004">Al Qassim</option>
+          </select>
+        </div>
 
         {/* Language Toggle */}
         <button

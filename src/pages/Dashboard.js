@@ -11,6 +11,8 @@ import DocumentTable from '../components/DocumentTable';
 import StatusBadge from '../components/StatusBadge';
 import { useEmployees } from '../hooks/useEmployees';
 import { useDocuments } from '../hooks/useDocuments';
+import { useCompanyDocuments } from '../hooks/useCompanyDocuments';
+import { useVehicleDocuments } from '../hooks/useVehicleDocuments';
 import { useSettings } from '../hooks/useSettings';
 import { formatDateToDisplay, calculateDaysRemaining } from '../utils/dateUtils';
 import { getStatusColor } from '../utils/statusUtils';
@@ -19,7 +21,9 @@ import '../styles/Dashboard.css';
 const Dashboard = () => {
   const { employees } = useEmployees();
   const { documents } = useDocuments();
-  const { language } = useSettings();
+  const { documents: companyDocuments } = useCompanyDocuments();
+  const { documents: vehicleDocuments } = useVehicleDocuments();
+  const { language, selectedBranch } = useSettings();
 
   const translations = {
     en: {
@@ -27,6 +31,8 @@ const Dashboard = () => {
       description: 'Overview of your employee documents and compliance status',
       totalEmployees: 'Total Employees',
       totalDocuments: 'Total Documents',
+      companyDocuments: 'Company Documents',
+      vehicleDocuments: 'Vehicle Documents',
       expiringDocuments: 'Expiring Soon',
       expiredDocuments: 'Expired Documents',
       documentStatus: 'Document Status Distribution',
@@ -41,6 +47,8 @@ const Dashboard = () => {
       description: 'نظرة عامة على مستندات الموظفين وحالة الامتثال',
       totalEmployees: 'إجمالي الموظفين',
       totalDocuments: 'إجمالي المستندات',
+      companyDocuments: 'مستندات الشركة',
+      vehicleDocuments: 'مستندات المركبات',
       expiringDocuments: 'ينتهي قريباً',
       expiredDocuments: 'منتهية الصلاحية',
       documentStatus: 'توزيع حالة المستندات',
@@ -54,23 +62,54 @@ const Dashboard = () => {
 
   const t = translations[language] || translations.en;
 
+  // Filter data by selected branch
+  const filteredEmployees = useMemo(() => {
+    if (selectedBranch === 'All') return employees;
+    return employees.filter(emp => emp.branchId === selectedBranch);
+  }, [employees, selectedBranch]);
+
+  const filteredDocuments = useMemo(() => {
+    if (selectedBranch === 'All') return documents;
+    return documents.filter(doc => doc.branchId === selectedBranch);
+  }, [documents, selectedBranch]);
+
+  const filteredCompanyDocuments = useMemo(() => {
+    if (selectedBranch === 'All') return companyDocuments;
+    return companyDocuments.filter(doc => doc.branchId === selectedBranch);
+  }, [companyDocuments, selectedBranch]);
+
+  const filteredVehicleDocuments = useMemo(() => {
+    if (selectedBranch === 'All') return vehicleDocuments;
+    return vehicleDocuments.filter(doc => doc.branchId === selectedBranch);
+  }, [vehicleDocuments, selectedBranch]);
+
   // Calculate statistics
   const stats = useMemo(() => {
-    const validCount = documents.filter(d => d.status === 'Valid').length;
-    const expiringCount = documents.filter(d => d.status === 'Expiring Soon').length;
-    const expiredCount = documents.filter(d => d.status === 'Expired').length;
-    const totalCount = documents.length;
+    const validCount = filteredDocuments.filter(d => d.status === 'Valid').length;
+    const expiringCount = filteredDocuments.filter(d => d.status === 'Expiring Soon').length;
+    const expiredCount = filteredDocuments.filter(d => d.status === 'Expired').length;
+    const totalCount = filteredDocuments.length;
+
+    const companyValidCount = filteredCompanyDocuments.filter(d => d.status === 'Valid').length;
+    const companyExpiringCount = filteredCompanyDocuments.filter(d => d.status === 'Expiring Soon').length;
+    const companyExpiredCount = filteredCompanyDocuments.filter(d => d.status === 'Expired').length;
+
+    const vehicleValidCount = filteredVehicleDocuments.filter(d => d.status === 'Valid').length;
+    const vehicleExpiringCount = filteredVehicleDocuments.filter(d => d.status === 'Expiring Soon').length;
+    const vehicleExpiredCount = filteredVehicleDocuments.filter(d => d.status === 'Expired').length;
 
     return {
-      totalEmployees: employees.length,
+      totalEmployees: filteredEmployees.length,
       totalDocuments: totalCount,
-      expiringDocuments: expiringCount,
-      expiredDocuments: expiredCount,
+      companyDocuments: filteredCompanyDocuments.length,
+      vehicleDocuments: filteredVehicleDocuments.length,
+      expiringDocuments: expiringCount + companyExpiringCount + vehicleExpiringCount,
+      expiredDocuments: expiredCount + companyExpiredCount + vehicleExpiredCount,
       validCount,
       expiringCount,
       expiredCount
     };
-  }, [documents, employees]);
+  }, [filteredDocuments, filteredCompanyDocuments, filteredVehicleDocuments, filteredEmployees]);
 
   // Prepare chart data
   const statusChartData = useMemo(() => [
@@ -81,15 +120,15 @@ const Dashboard = () => {
 
   const departmentChartData = useMemo(() => {
     const deptMap = {};
-    employees.forEach(emp => {
+    filteredEmployees.forEach(emp => {
       if (!deptMap[emp.department]) {
         deptMap[emp.department] = { total: 0, valid: 0 };
       }
       deptMap[emp.department].total++;
     });
 
-    documents.forEach(doc => {
-      const emp = employees.find(e => e.employeeId === doc.employeeId);
+    filteredDocuments.forEach(doc => {
+      const emp = filteredEmployees.find(e => e.employeeId === doc.employeeId);
       if (emp && doc.status === 'Valid') {
         deptMap[emp.department].valid++;
       }
@@ -99,20 +138,25 @@ const Dashboard = () => {
       name: dept,
       compliance: deptMap[dept].total > 0 ? Math.round((deptMap[dept].valid / deptMap[dept].total) * 100) : 0
     }));
-  }, [employees, documents]);
+  }, [filteredEmployees, filteredDocuments]);
 
-  // Get expiring soon documents
-  const expiringDocuments = useMemo(() => {
-    return documents
-      .filter(d => d.status === 'Expiring Soon')
-      .sort((a, b) => calculateDaysRemaining(a.expiryDate) - calculateDaysRemaining(b.expiryDate))
-      .slice(0, 5);
-  }, [documents]);
-
+  // Get expiring soon documents (all types)
   const getEmployeeName = (employeeId) => {
     const emp = employees.find(e => e.employeeId === employeeId);
     return emp ? emp.fullName : 'Unknown';
   };
+
+  const expiringDocuments = useMemo(() => {
+    const allExpiring = [
+      ...filteredDocuments.filter(d => d.status === 'Expiring Soon').map(d => ({ ...d, docType: 'Employee', entityName: getEmployeeName(d.employeeId) })),
+      ...filteredCompanyDocuments.filter(d => d.status === 'Expiring Soon').map(d => ({ ...d, docType: 'Company', entityName: d.documentName })),
+      ...filteredVehicleDocuments.filter(d => d.status === 'Expiring Soon').map(d => ({ ...d, docType: 'Vehicle', entityName: `${d.vehicleId} (${d.documentType})` }))
+    ];
+
+    return allExpiring
+      .sort((a, b) => calculateDaysRemaining(a.expiryDate) - calculateDaysRemaining(b.expiryDate))
+      .slice(0, 5);
+  }, [filteredDocuments, filteredCompanyDocuments, filteredVehicleDocuments, employees]);
 
   return (
     <div className="dashboard-page">
@@ -130,12 +174,24 @@ const Dashboard = () => {
           icon={Users}
           color="primary"
         />
-        {/* <DashboardCard
+        <DashboardCard
           title={t.totalDocuments}
           value={stats.totalDocuments}
           icon={FileText}
           color="primary"
-        /> */}
+        />
+        <DashboardCard
+          title={t.companyDocuments}
+          value={stats.companyDocuments}
+          icon={FileText}
+          color="info"
+        />
+        <DashboardCard
+          title={t.vehicleDocuments}
+          value={stats.vehicleDocuments}
+          icon={FileText}
+          color="secondary"
+        />
         <DashboardCard
           title={t.expiringDocuments}
           value={stats.expiringDocuments}
@@ -212,7 +268,8 @@ const Dashboard = () => {
             <table className="expiring-table">
               <thead>
                 <tr>
-                  <th>Employee</th>
+                  <th>Type</th>
+                  <th>Entity</th>
                   <th>Document Type</th>
                   <th>Expiry Date</th>
                   <th>Days Remaining</th>
@@ -222,8 +279,13 @@ const Dashboard = () => {
               <tbody>
                 {expiringDocuments.map((doc) => (
                   <tr key={doc.documentId}>
-                    <td className="emp-name">{getEmployeeName(doc.employeeId)}</td>
-                    <td>{doc.documentType ?? "Null"}</td>
+                    <td>
+                      <span className={`type-badge ${doc.docType.toLowerCase()}`}>
+                        {doc.docType}
+                      </span>
+                    </td>
+                    <td className="emp-name">{doc.entityName}</td>
+                    <td>{doc.documentType ?? doc.documentName ?? "N/A"}</td>
                     <td>{formatDateToDisplay(doc.expiryDate)}</td>
                     <td>
                       <span className="days-badge">

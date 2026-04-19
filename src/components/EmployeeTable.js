@@ -50,6 +50,8 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
             <th>Employee ID</th>
             <th>Department</th>
             <th>Job Title</th>
+            <th>Salary</th>
+            <th>Rejoin Date</th>
             <th>Email</th>
             <th>Status</th>
             <th>Actions</th>
@@ -71,6 +73,8 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
               <td className="mono">{employee.employeeId}</td>
               <td>{employee.department}</td>
               <td>{employee.jobTitle}</td>
+              <td className="salary">{employee.salary ? `SAR ${employee.salary.toLocaleString()}` : 'N/A'}</td>
+              <td>{employee.rejoinDate ? formatDate(employee.rejoinDate) : 'N/A'}</td>
               <td className="email">{employee.email}</td>
               <td>
                 <span

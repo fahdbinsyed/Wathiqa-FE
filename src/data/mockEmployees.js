@@ -13,7 +13,11 @@ export const mockEmployees = [
     jobTitle: "HR Manager",
     manager: "Mohammed Ali",
     joiningDate: "2020-01-15",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branchId: "BR001",
+    branchName: "Riyadh",
+    salary: 15000,
+    rejoinDate: null
   },
   {
     employeeId: "EMP002",
@@ -28,7 +32,11 @@ export const mockEmployees = [
     jobTitle: "Finance Director",
     manager: "Abdullah Ahmed",
     joiningDate: "2019-06-10",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branchId: "BR002",
+    branchName: "Dammam",
+    salary: 18000,
+    rejoinDate: null
   },
   {
     employeeId: "EMP003",
@@ -43,7 +51,11 @@ export const mockEmployees = [
     jobTitle: "Senior Developer",
     manager: "Fahad Saeed",
     joiningDate: "2021-02-20",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branchId: "BR001",
+    branchName: "Riyadh",
+    salary: 12000,
+    rejoinDate: null
   },
   {
     employeeId: "EMP004",
@@ -58,7 +70,11 @@ export const mockEmployees = [
     jobTitle: "Operations Manager",
     manager: "Samir Hussain",
     joiningDate: "2018-09-01",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branchId: "BR003",
+    branchName: "Jeddah",
+    salary: 14000,
+    rejoinDate: null
   },
   {
     employeeId: "EMP005",
@@ -73,7 +89,11 @@ export const mockEmployees = [
     jobTitle: "Financial Analyst",
     manager: "Ali Hassan",
     joiningDate: "2020-11-15",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branchId: "BR002",
+    branchName: "Dammam",
+    salary: 10000,
+    rejoinDate: null
   },
   {
     employeeId: "EMP006",
@@ -88,7 +108,11 @@ export const mockEmployees = [
     jobTitle: "HR Specialist",
     manager: "Ahmed Khan",
     joiningDate: "2021-05-10",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branchId: "BR001",
+    branchName: "Riyadh",
+    salary: 9000,
+    rejoinDate: null
   },
   {
     employeeId: "EMP007",
@@ -103,7 +127,11 @@ export const mockEmployees = [
     jobTitle: "Compliance Officer",
     manager: "Noor Hassan",
     joiningDate: "2019-03-01",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branchId: "BR004",
+    branchName: "Al Qassim",
+    salary: 11000,
+    rejoinDate: null
   },
   {
     employeeId: "EMP008",
@@ -118,7 +146,11 @@ export const mockEmployees = [
     jobTitle: "IT Support Manager",
     manager: "Omar Farooq",
     joiningDate: "2020-07-22",
-    employeeStatus: "On Leave"
+    employeeStatus: "On Leave",
+    branchId: "BR001",
+    branchName: "Riyadh",
+    salary: 13000,
+    rejoinDate: "2024-05-01"
   },
   {
     employeeId: "EMP009",
@@ -133,7 +165,11 @@ export const mockEmployees = [
     jobTitle: "Compliance Manager",
     manager: "Hana Al-Sharif",
     joiningDate: "2022-01-10",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branchId: "BR004",
+    branchName: "Al Qassim",
+    salary: 12500,
+    rejoinDate: null
   },
   {
     employeeId: "EMP010",
@@ -148,6 +184,10 @@ export const mockEmployees = [
     jobTitle: "Operations Director",
     manager: null,
     joiningDate: "2017-05-01",
-    employeeStatus: "Exit"
+    employeeStatus: "Exit",
+    branchId: "BR003",
+    branchName: "Jeddah",
+    salary: 20000,
+    rejoinDate: null
   }
 ];

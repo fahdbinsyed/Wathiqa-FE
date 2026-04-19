@@ -34,6 +34,8 @@ const EmployeeProfile = () => {
       jobTitle: 'Job Title',
       manager: 'Manager',
       joiningDate: 'Joining Date',
+      rejoinDate: 'Rejoin Date',
+      salary: 'Salary',
       status: 'Status',
       back: 'Back to Employees'
     },
@@ -50,6 +52,8 @@ const EmployeeProfile = () => {
       jobTitle: 'المسمى الوظيفي',
       manager: 'المدير',
       joiningDate: 'تاريخ الانضمام',
+      rejoinDate: 'تاريخ إعادة الانضمام',
+      salary: 'الراتب',
       status: 'الحالة',
       back: 'العودة إلى الموظفين'
     }
@@ -154,6 +158,14 @@ const EmployeeProfile = () => {
             <div className="info-item">
               <span className="info-label">{t.joiningDate}</span>
               <span className="info-value">{employee.joiningDate ? formatDate(employee.joiningDate) : 'N/A'}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label">{t.rejoinDate}</span>
+              <span className="info-value">{employee.rejoinDate ? formatDate(employee.rejoinDate) : 'N/A'}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label">{t.salary}</span>
+              <span className="info-value">{employee.salary ? `SAR ${employee.salary.toLocaleString()}` : 'N/A'}</span>
             </div>
             <div className="info-item">
               <span className="info-label">{t.status}</span>
