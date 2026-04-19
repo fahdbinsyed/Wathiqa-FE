@@ -47,11 +47,12 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Employee ID</th>
+            {/* <th>Employee ID</th> */}
             <th>Department</th>
+            <th>Branch</th>
             <th>Job Title</th>
-            <th>Salary</th>
-            <th>Rejoin Date</th>
+            {/* <th>Salary</th>
+            <th>Rejoin Date</th> */}
             <th>Email</th>
             <th>Status</th>
             <th>Actions</th>
@@ -70,11 +71,12 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
                   <span>{employee.fullName}</span>
                 </div>
               </td>
-              <td className="mono">{employee.employeeId}</td>
+              {/* <td className="mono">{employee.employeeId}</td> */}
               <td>{employee.department}</td>
+              <td>{employee.branchName || employee.branchId || 'N/A'}</td>
               <td>{employee.jobTitle}</td>
-              <td className="salary">{employee.salary ? `SAR ${employee.salary.toLocaleString()}` : 'N/A'}</td>
-              <td>{employee.rejoinDate ? formatDate(employee.rejoinDate) : 'N/A'}</td>
+              {/* <td className="salary">{employee.salary ? `SAR ${employee.salary.toLocaleString()}` : 'N/A'}</td> */}
+              {/* <td>{employee.rejoinDate ? formatDate(employee.rejoinDate) : 'N/A'}</td> */}
               <td className="email">{employee.email}</td>
               <td>
                 <span

@@ -21,6 +21,8 @@ import Documents from './pages/Documents';
 import Reports from './pages/Reports';
 import Settings from './pages/Settings';
 import ActivityLogs from './pages/ActivityLogs';
+import CompanyDocuments from './pages/CompanyDocuments';
+import VehicleDocuments from './pages/VehicleDocuments';
 import NotFound from './pages/NotFound';
 
 // Components
@@ -62,8 +64,7 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
-          
-          <Route
+                    <Route
             path="/employees"
             element={
               <ProtectedRoute>
@@ -71,23 +72,49 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
-          
           <Route
-            path="/employees/:employeeId"
-            element={
-              <ProtectedRoute>
-                <EmployeeProfile />
-              </ProtectedRoute>
-            }
-          />
-          
-          <Route
-            path="/documents"
-            element={
-              <ProtectedRoute>
-                <Documents />
-              </ProtectedRoute>
-            }
+                    path="/employee-documents"
+                    element={
+                      <ProtectedRoute>
+                        <Employees />
+                      </ProtectedRoute>
+                    }
+                  />
+                  
+                  <Route
+                    path="/company-documents"
+                    element={
+                      <ProtectedRoute>
+                        <CompanyDocuments />
+                      </ProtectedRoute>
+                    }
+                  />
+                  
+                  <Route
+                    path="/vehicle-documents"
+                    element={
+                      <ProtectedRoute>
+                        <VehicleDocuments />
+                      </ProtectedRoute>
+                    }
+                  />
+                  
+                  <Route
+                    path="/employees/:employeeId"
+                    element={
+                      <ProtectedRoute>
+                        <EmployeeProfile />
+                      </ProtectedRoute>
+                    }
+                  />
+                  
+                  <Route
+                    path="/documents"
+                    element={
+                      <ProtectedRoute>
+                        <Documents />
+                      </ProtectedRoute>
+                    }
           />
           
           <Route

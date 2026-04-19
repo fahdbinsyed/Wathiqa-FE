@@ -12,6 +12,8 @@ const EmployeeForm = ({ employee, onSubmit, onCancel }) => {
     mobileNumber: '',
     email: '',
     department: '',
+    branchId: '',
+    branchName: '',
     jobTitle: '',
     manager: '',
     joiningDate: '',
@@ -36,6 +38,7 @@ const EmployeeForm = ({ employee, onSubmit, onCancel }) => {
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     if (!formData.mobileNumber.trim()) newErrors.mobileNumber = 'Mobile number is required';
     if (!formData.department) newErrors.department = 'Department is required';
+    if (!formData.branchId) newErrors.branchId = 'Branch is required';
     if (!formData.jobTitle.trim()) newErrors.jobTitle = 'Job title is required';
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -47,12 +50,29 @@ const EmployeeForm = ({ employee, onSubmit, onCancel }) => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const branches = [
+    { id: 'BR001', name: 'Riyadh' },
+    { id: 'BR002', name: 'Dammam' },
+    { id: 'BR003', name: 'Jeddah' },
+    { id: 'BR004', name: 'Al Qassim' }
+  ];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData((prev) => {
+      if (name === 'branchId') {
+        const branch = branches.find((branch) => branch.id === value);
+        return {
+          ...prev,
+          branchId: value,
+          branchName: branch ? branch.name : ''
+        };
+      }
+      return {
+        ...prev,
+        [name]: value
+      };
+    });
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -130,6 +150,19 @@ const EmployeeForm = ({ employee, onSubmit, onCancel }) => {
                 ))}
               </select>
               {errors.department && <span className="error-message">{errors.department}</span>}
+            </div>
+
+            <div className="form-group">
+              <label>Branch *</label>
+              <select name="branchId" value={formData.branchId} onChange={handleChange}>
+                <option value="">Select Branch</option>
+                {branches.map((branch) => (
+                  <option key={branch.id} value={branch.id}>
+                    {branch.name}
+                  </option>
+                ))}
+              </select>
+              {errors.branchId && <span className="error-message">{errors.branchId}</span>}
             </div>
 
             <div className="form-group">

@@ -94,16 +94,33 @@ const EmployeeProfile = () => {
           alt={employee.fullName}
           className="profile-photo"
         />
-        <div className="profile-header-info">
-          <h1>{employee.fullName}</h1>
-          <p className="profile-job-title">{employee.jobTitle}</p>
-          <div className="profile-badges">
-            <span className="badge badge-primary">{employee.department}</span>
-            <span className={`badge badge-${employee.employeeStatus === 'Active' ? 'success' : employee.employeeStatus === 'On Leave' ? 'warning' : 'danger'}`}>
-              {employee.employeeStatus}
-            </span>
-          </div>
-        </div>
+<div className="profile-header-info">
+  <div className="profile-title-row">
+    <h1>{employee.fullName}</h1>
+
+    <span
+      className={`badge badge-${
+        employee.employeeStatus === 'Active'
+          ? 'success'
+          : employee.employeeStatus === 'On Leave'
+          ? 'warning'
+          : 'danger'
+      }`}
+    >
+      {employee.employeeStatus}
+    </span>
+  </div>
+
+  <p className="profile-job-title">{employee.jobTitle}</p>
+
+  <div className="profile-meta-row">
+    <span className="profile-meta-item">ID: {employee.employeeId}</span>
+    <span className="profile-meta-item">Department: {employee.department}</span>
+    <span className="profile-meta-item">
+      Branch: {employee.branchName || employee.branchId || 'N/A'}
+    </span>
+  </div>
+</div>
       </div>
 
       {/* Info Sections */}
