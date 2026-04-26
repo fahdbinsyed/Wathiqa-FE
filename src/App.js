@@ -14,7 +14,10 @@ import Dashboard from './pages/Dashboard';
 import Employees from './pages/Employees';
 import EmployeeProfile from './pages/EmployeeProfile';
 import Documents from './pages/Documents';
+import Attendance from './pages/Attendance';
+import Salary from './pages/Salary';
 import Reports from './pages/Reports';
+import AuditTrail from './pages/AuditTrail';
 import Settings from './pages/Settings';
 import NotFound from './pages/NotFound';
 
@@ -44,7 +47,7 @@ const AppContent = () => {
       <Layout searchQuery={searchQuery} onSearchChange={setSearchQuery}>
         <Routes>
           <Route path="/login" element={<Login />} />
-          
+
           <Route
             path="/dashboard"
             element={
@@ -53,7 +56,7 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
-          
+
           <Route
             path="/employees"
             element={
@@ -62,7 +65,7 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
-          
+
           <Route
             path="/employees/:employeeId"
             element={
@@ -71,7 +74,7 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
-          
+
           <Route
             path="/documents"
             element={
@@ -80,7 +83,25 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
-          
+
+          <Route
+            path="/attendance"
+            element={
+              <ProtectedRoute>
+                <Attendance />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/salary"
+            element={
+              <ProtectedRoute>
+                <Salary />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/reports"
             element={
@@ -89,7 +110,16 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
-          
+
+          <Route
+            path="/audit-trail"
+            element={
+              <ProtectedRoute>
+                <AuditTrail />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/settings"
             element={
@@ -98,8 +128,13 @@ const AppContent = () => {
               </ProtectedRoute>
             }
           />
-          
-          <Route path="/" element={<Navigate to={isLoggedIn ? '/dashboard' : '/login'} replace />} />
+
+          <Route
+            path="/"
+            element={
+              <Navigate to={isLoggedIn ? "/dashboard" : "/login"} replace />
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>

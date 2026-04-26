@@ -2,7 +2,8 @@
 import React, { useMemo } from 'react';
 import {
   Users, FileText, AlertCircle, CheckCircle,
-  TrendingUp, Activity
+  TrendingUp, Activity,
+  Car
 } from 'lucide-react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import PageHeader from '../components/PageHeader';
@@ -21,36 +22,45 @@ const Dashboard = () => {
   const { documents } = useDocuments();
   const { language } = useSettings();
 
-  const translations = {
-    en: {
-      title: 'Dashboard',
-      description: 'Overview of your employee documents and compliance status',
-      totalEmployees: 'Total Employees',
-      totalDocuments: 'Total Documents',
-      expiringDocuments: 'Expiring Soon',
-      expiredDocuments: 'Expired Documents',
-      documentStatus: 'Document Status Distribution',
-      departmentCompliance: 'Department Compliance',
-      recentExpiringDocuments: 'Recently Expiring Documents',
-      valid: 'Valid',
-      expiringS: 'Expiring Soon',
-      expired: 'Expired'
-    },
-    ar: {
-      title: 'لوحة التحكم',
-      description: 'نظرة عامة على مستندات الموظفين وحالة الامتثال',
-      totalEmployees: 'إجمالي الموظفين',
-      totalDocuments: 'إجمالي المستندات',
-      expiringDocuments: 'ينتهي قريباً',
-      expiredDocuments: 'منتهية الصلاحية',
-      documentStatus: 'توزيع حالة المستندات',
-      departmentCompliance: 'امتثال القسم',
-      recentExpiringDocuments: 'المستندات التي تنتهي مؤخراً',
-      valid: 'صحيح',
-      expiringS: 'ينتهي قريباً',
-      expired: 'منتهية الصلاحية'
-    }
-  };
+const translations = {
+  en: {
+    title: "Dashboard",
+    description: "Overview of your employee documents and compliance status",
+    totalEmployeesDocuments: "Total Employees Documents",
+    totalCompanyDocuments: "Total Company Documents",
+    totalVehicleDocuments: "Total Vehicle Documents",
+    totalEmployees: "Total Employees",
+    expiringDocuments: "Expiring Soon",
+    expiredDocuments: "Expired Documents",
+    documentStatus: "Document Status Distribution",
+    departmentCompliance: "Department Compliance",
+    recentExpiringDocuments: "Recently Expiring Documents",
+    valid: "Valid",
+    expiringS: "Expiring Soon",
+    expired: "Expired",
+  },
+  ar: {
+    title: "لوحة التحكم",
+    description: "نظرة عامة على مستندات الموظفين وحالة الامتثال",
+
+    totalEmployeesDocuments: "إجمالي مستندات الموظفين",
+    totalCompanyDocuments: "إجمالي مستندات الشركة",
+    totalVehicleDocuments: "إجمالي مستندات المركبات",
+
+    totalEmployees: "إجمالي الموظفين",
+
+    expiringDocuments: "تنتهي قريبًا",
+    expiredDocuments: "المستندات المنتهية",
+
+    documentStatus: "توزيع حالة المستندات",
+    departmentCompliance: "امتثال الأقسام",
+    recentExpiringDocuments: "المستندات التي ستنتهي قريبًا",
+
+    valid: "سارية", // better than "صحيح"
+    expiringS: "تنتهي قريبًا",
+    expired: "منتهية",
+  },
+};
 
   const t = translations[language] || translations.en;
 
@@ -127,24 +137,26 @@ const Dashboard = () => {
   
   return (
     <div className="dashboard-page">
-      <PageHeader
-        title={t.title}
-        description={t.description}
-        icon={Activity}
-      />
+      <PageHeader title={t.title} description={t.description} icon={Activity} />
 
       {/* Stats Cards */}
       <div className="stats-grid">
         <DashboardCard
-          title={t.totalEmployees}
-          value={stats.totalEmployees}
+          title={t.totalCompanyDocuments}
+          value={stats.totalDocuments}
+          icon={FileText}
+          color="primary"
+        />
+        <DashboardCard
+          title={t.totalEmployeesDocuments}
+          value={stats.totalEmployeesDocuments}
           icon={Users}
           color="primary"
         />
         <DashboardCard
-          title={t.totalDocuments}
-          value={stats.totalDocuments}
-          icon={FileText}
+          title={t.totalVehicleDocuments}
+          value={stats.totalVehicleDocuments}
+          icon={Car}
           color="primary"
         />
         <DashboardCard
@@ -159,11 +171,17 @@ const Dashboard = () => {
           icon={AlertCircle}
           color="danger"
         />
+        <DashboardCard
+          title={t.totalEmployees}
+          value={stats.totalEmployees}
+          icon={Users}
+          color="primary"
+        />
       </div>
 
-      {/* 
       <div className="charts-grid">
-        {/* Status Distribution * /}
+        <h1>Compliance Overview</h1>
+        {/* Status Distribution */}
         <div className="chart-card">
           <h3>{t.documentStatus}</h3>
           <div className="chart-container">
@@ -193,7 +211,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Department Compliance * /}
+        {/* Department Compliance */}
         <div className="chart-card">
           <h3>{t.departmentCompliance}</h3>
           <div className="chart-container">
@@ -204,7 +222,11 @@ const Dashboard = () => {
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="compliance" fill={getStatusColor('Valid')} radius={[8, 8, 0, 0]} />
+                  <Bar
+                    dataKey="compliance"
+                    fill={getStatusColor("Valid")}
+                    radius={[8, 8, 0, 0]}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
@@ -213,7 +235,6 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      */}
 
       {/* Expiring Documents Table */}
       <div className="expiring-section">
@@ -233,7 +254,9 @@ const Dashboard = () => {
               <tbody>
                 {expiringDocuments.map((doc) => (
                   <tr key={doc.documentId}>
-                    <td className="emp-name">{getEmployeeName(doc.employeeId)}</td>
+                    <td className="emp-name">
+                      {getEmployeeName(doc.employeeId)}
+                    </td>
                     <td>{doc.documentType ?? "Null"}</td>
                     <td>{formatDateToDisplay(doc.expiryDate)}</td>
                     <td>
@@ -242,7 +265,10 @@ const Dashboard = () => {
                       </span>
                     </td>
                     <td>
-                      <StatusBadge status={getDocumentStatus(doc.expiryDate)} size="small" />
+                      <StatusBadge
+                        status={getDocumentStatus(doc.expiryDate)}
+                        size="small"
+                      />
                     </td>
                   </tr>
                 ))}

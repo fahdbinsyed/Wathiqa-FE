@@ -10,7 +10,10 @@ import {
   LogOut,
   Menu,
   X,
-  ChevronDown
+  ChevronDown,
+  Calendar,
+  DollarSign,
+  ClipboardList
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useSettings } from '../hooks/useSettings';
@@ -23,34 +26,46 @@ const Sidebar = ({ isOpen, onClose }) => {
 
   const translations = {
     en: {
-      dashboard: 'Dashboard',
-      employees: 'Employees',
-      documents: 'Documents',
-      reports: 'Reports',
-      settings: 'Settings',
-      logout: 'Logout',
-      menu: 'Menu'
+      dashboard: "Dashboard",
+      employees: "Employees",
+      documents: "Documents",
+      attendance: "Attendance",
+      salary: "Salary",
+      reports: "Reports",
+      auditTrail: "Audit Trail",
+      settings: "Settings",
+      logout: "Logout",
+      menu: "Menu",
     },
     ar: {
-      dashboard: 'لوحة التحكم',
-      employees: 'الموظفون',
-      documents: 'المستندات',
-      reports: 'التقارير',
-      settings: 'الإعدادات',
-      logout: 'تسجيل الخروج',
-      menu: 'القائمة'
-    }
+      dashboard: "لوحة التحكم",
+      employees: "الموظفون",
+      documents: "المستندات",
+      attendance: "الحضور",
+      salary: "الراتب",
+      reports: "التقارير",
+      auditTrail: "سجل التدقيق",
+      settings: "الإعدادات",
+      logout: "تسجيل الخروج",
+      menu: "القائمة",
+    },
   };
 
   const t = translations[language] || translations.en;
 
-  const menuItems = [
-    { icon: Home, label: t.dashboard, path: '/dashboard', key: 'dashboard' },
-    { icon: Users, label: t.employees, path: '/employees', key: 'employees' },
-    { icon: FileText, label: t.documents, path: '/documents', key: 'documents' },
-    { icon: BarChart3, label: t.reports, path: '/reports', key: 'reports' },
-    { icon: Settings, label: t.settings, path: '/settings', key: 'settings' }
-  ];
+const menuItems = [
+  { icon: Home, label: t.dashboard, path: '/dashboard', key: 'dashboard' },
+  { icon: Users, label: t.employees, path: '/employees', key: 'employees' },
+  { icon: FileText, label: t.documents, path: '/documents', key: 'documents' },
+
+  { icon: Calendar, label: t.attendance, path: '/attendance', key: 'attendance' },   // NEW
+  { icon: DollarSign, label: t.salary, path: '/salary', key: 'salary' },              // NEW
+
+  { icon: BarChart3, label: t.reports, path: '/reports', key: 'reports' },
+  { icon: ClipboardList, label: t.auditTrail, path: '/audit-trail', key: 'auditTrail' }, // NEW
+
+  { icon: Settings, label: t.settings, path: '/settings', key: 'settings' }
+];
 
   const isActive = (path) => location.pathname.startsWith(path);
 
