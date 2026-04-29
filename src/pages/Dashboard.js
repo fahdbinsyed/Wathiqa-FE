@@ -19,7 +19,7 @@ import '../styles/Dashboard.css';
 const Dashboard = () => {
   const { employees } = useEmployees();
   const { documents } = useDocuments();
-  const { language } = useSettings();
+  const { language, selectedBranch } = useSettings();
 
   const translations = {
     en: {
@@ -54,15 +54,24 @@ const Dashboard = () => {
 
   const t = translations[language] || translations.en;
 
-  // Calculate statistics
+  // Calculate statistics with branch filter
   const stats = useMemo(() => {
-    const validCount = documents.filter(d => d.status === 'Valid').length;
-    const expiringCount = documents.filter(d => d.status === 'Expiring Soon').length;
-    const expiredCount = documents.filter(d => d.status === 'Expired').length;
-    const totalCount = documents.length;
+    // Filter employees by branch
+    const filteredEmployees = selectedBranch && selectedBranch !== 'All'
+      ? employees.filter(emp => emp.branch === selectedBranch)
+      : employees;
+    
+    // Get document for filtered employees
+    const employeeIds = filteredEmployees.map(emp => emp.employeeId);
+    const filteredDocs = documents.filter(doc => employeeIds.includes(doc.employeeId));
+    
+    const validCount = filteredDocs.filter(d => d.status === 'Valid').length;
+    const expiringCount = filteredDocs.filter(d => d.status === 'Expiring Soon').length;
+    const expiredCount = filteredDocs.filter(d => d.status === 'Expired').length;
+    const totalCount = filteredDocs.length;
 
     return {
-      totalEmployees: employees.length,
+      totalEmployees: filteredEmployees.length,
       totalDocuments: totalCount,
       expiringDocuments: expiringCount,
       expiredDocuments: expiredCount,
@@ -70,7 +79,7 @@ const Dashboard = () => {
       expiringCount,
       expiredCount
     };
-  }, [documents, employees]);
+  }, [documents, employees, selectedBranch]);
 
   // Prepare chart data
   const statusChartData = useMemo(() => [

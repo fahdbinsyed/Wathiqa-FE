@@ -13,7 +13,8 @@ export const mockEmployees = [
     jobTitle: "HR Manager",
     manager: "Mohammed Ali",
     joiningDate: "2020-01-15",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branch: "BR001"
   },
   {
     employeeId: "EMP002",
@@ -28,7 +29,8 @@ export const mockEmployees = [
     jobTitle: "Finance Director",
     manager: "Abdullah Ahmed",
     joiningDate: "2019-06-10",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branch: "BR001"
   },
   {
     employeeId: "EMP003",
@@ -43,7 +45,8 @@ export const mockEmployees = [
     jobTitle: "Senior Developer",
     manager: "Fahad Saeed",
     joiningDate: "2021-02-20",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branch: "BR001"
   },
   {
     employeeId: "EMP004",
@@ -58,7 +61,8 @@ export const mockEmployees = [
     jobTitle: "Operations Manager",
     manager: "Samir Hussain",
     joiningDate: "2018-09-01",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branch: "BR002"
   },
   {
     employeeId: "EMP005",
@@ -73,7 +77,8 @@ export const mockEmployees = [
     jobTitle: "Financial Analyst",
     manager: "Ali Hassan",
     joiningDate: "2020-11-15",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branch: "BR002"
   },
   {
     employeeId: "EMP006",
@@ -88,7 +93,8 @@ export const mockEmployees = [
     jobTitle: "HR Specialist",
     manager: "Ahmed Khan",
     joiningDate: "2021-05-10",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branch: "BR003"
   },
   {
     employeeId: "EMP007",
@@ -103,7 +109,8 @@ export const mockEmployees = [
     jobTitle: "Compliance Officer",
     manager: "Noor Hassan",
     joiningDate: "2019-03-01",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branch: "BR003"
   },
   {
     employeeId: "EMP008",
@@ -118,7 +125,8 @@ export const mockEmployees = [
     jobTitle: "IT Support Manager",
     manager: "Omar Farooq",
     joiningDate: "2020-07-22",
-    employeeStatus: "On Leave"
+    employeeStatus: "On Leave",
+    branch: "BR004"
   },
   {
     employeeId: "EMP009",
@@ -133,7 +141,8 @@ export const mockEmployees = [
     jobTitle: "Compliance Manager",
     manager: "Hana Al-Sharif",
     joiningDate: "2022-01-10",
-    employeeStatus: "Active"
+    employeeStatus: "Active",
+    branch: "BR001"
   },
   {
     employeeId: "EMP010",
@@ -148,6 +157,7 @@ export const mockEmployees = [
     jobTitle: "Operations Director",
     manager: null,
     joiningDate: "2017-05-01",
-    employeeStatus: "Exit"
+    employeeStatus: "Exit",
+    branch: "BR002"
   }
 ];

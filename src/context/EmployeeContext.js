@@ -2,12 +2,36 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { mockEmployees } from '../data/mockEmployees';
 
+// Branch mapping for migration
+const branchMapping = {
+  'EMP001': 'BR001',
+  'EMP002': 'BR001',
+  'EMP003': 'BR001',
+  'EMP004': 'BR002',
+  'EMP005': 'BR002',
+  'EMP006': 'BR003',
+  'EMP007': 'BR003',
+  'EMP008': 'BR004',
+  'EMP009': 'BR001',
+  'EMP010': 'BR002'
+};
+
 export const EmployeeContext = createContext();
 
 export const EmployeeProvider = ({ children }) => {
   const [employees, setEmployees] = useState(() => {
     const saved = localStorage.getItem('employees');
-    return saved ? JSON.parse(saved) : mockEmployees;
+    const parsed = saved ? JSON.parse(saved) : null;
+    
+    // If we have saved data, ensure all employees have branch field
+    if (parsed) {
+      return parsed.map(emp => ({
+        ...emp,
+        branch: emp.branch || branchMapping[emp.employeeId] || 'BR001'
+      }));
+    }
+    
+    return mockEmployees;
   });
 
   useEffect(() => {
@@ -58,6 +82,11 @@ export const EmployeeProvider = ({ children }) => {
     return employees.filter(emp => emp.employeeStatus === status);
   }, [employees]);
 
+  const filterByBranch = useCallback((branch) => {
+    if (!branch || branch === 'All') return employees;
+    return employees.filter(emp => emp.branch === branch);
+  }, [employees]);
+
   const value = {
     employees,
     addEmployee,
@@ -66,7 +95,8 @@ export const EmployeeProvider = ({ children }) => {
     getEmployeeById,
     searchEmployees,
     filterByDepartment,
-    filterByStatus
+    filterByStatus,
+    filterByBranch
   };
 
   return (

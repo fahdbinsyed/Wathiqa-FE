@@ -149,6 +149,86 @@ body.dark-mode .navbar-search-input::placeholder {
   gap: 1.5rem;
 }
 
+/* Branch Selector */
+.navbar-branch-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+/* Icon */
+.navbar-branch-icon {
+  color: #6b7280;
+}
+
+/* Wrapper for arrow */
+.navbar-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Custom arrow */
+.navbar-select-wrapper::after {
+  content: "▼";
+  font-size: 10px;
+  color: #6b7280;
+  position: absolute;
+  right: 6px;
+  pointer-events: none;
+}
+
+/* Select */
+.navbar-branch-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  border: none;
+  background: transparent;
+  outline: none;
+
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+
+  padding-right: 18px;
+  cursor: pointer;
+}
+
+/* Remove all interactions */
+.navbar-branch-selector:hover {
+  border-color: #e5e7eb;
+}
+
+.navbar-branch-selector:active {
+  transform: none;
+}
+
+.navbar-branch-select:focus,
+.navbar-branch-select:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.navbar-branch-selector:focus-within {
+  border-color: #e5e7eb; /* keep same as default */
+  box-shadow: none;
+}
+
+body.dark-mode .navbar-branch-selector {
+  background-color: #374151;
+  border-color: #4B5563;
+}
+
+body.dark-mode .navbar-branch-select {
+  color: #F9FAFB;
+}
+
 .navbar-icon-btn {
   background: none;
   border: none;
@@ -253,6 +333,27 @@ body.dark-mode .notification-header {
 
 body.dark-mode .notification-item:hover {
   background-color: #4B5563;
+}
+
+.notification-item.read {
+  opacity: 0.65;
+}
+
+.notification-item.read .notification-dot {
+  background-color: #D1D5DB;
+}
+
+.mark-read-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mark-read-btn:hover {
+  text-decoration: underline;
 }
 
 .notification-dot {

@@ -79,6 +79,11 @@ const Employees = () => {
   const filteredEmployees = useMemo(() => {
     let filtered = searchEmployees(searchQuery);
     
+    // Apply branch filter from navbar
+    if (selectedBranch && selectedBranch !== 'All') {
+      filtered = filtered.filter(emp => emp.branch === selectedBranch);
+    }
+    
     if (departmentFilter) {
       filtered = filtered.filter(emp => emp.department === departmentFilter);
     }
@@ -87,22 +92,22 @@ const Employees = () => {
       filtered = filtered.filter(emp => emp.employeeStatus === statusFilter);
     }
     
-    if (branchFilter) {
-      filtered = filtered.filter(emp => emp.branchId === branchFilter);
-    }
-    
     return filtered;
-  }, [searchQuery, departmentFilter, statusFilter, branchFilter, searchEmployees]);
+  }, [searchQuery, departmentFilter, statusFilter, searchEmployees, selectedBranch]);
 
   const filteredEmployeesByBranch = useMemo(() => {
     if (!selectedBranch || selectedBranch === 'All') return employees;
-    return employees.filter(emp => emp.branchId === selectedBranch);
+    return employees.filter(emp => emp.branch === selectedBranch);
   }, [employees, selectedBranch]);
 
   const filteredDocuments = useMemo(() => {
     if (!selectedBranch || selectedBranch === 'All') return documents;
-    return documents.filter(doc => doc.branchId === selectedBranch);
-  }, [documents, selectedBranch]);
+    // Filter documents by branch through employee association
+    const employeeIdsInBranch = employees
+      .filter(emp => emp.branch === selectedBranch)
+      .map(emp => emp.employeeId);
+    return documents.filter(doc => employeeIdsInBranch.includes(doc.employeeId));
+  }, [documents, selectedBranch, employees]);
 
   const stats = useMemo(() => {
     const expiringCount = filteredDocuments.filter(d => d.status === 'Expiring Soon').length;

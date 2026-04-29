@@ -93,6 +93,19 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     return Array.from(types);
   }, [documents]);
 
+  // Filter documents by branch - joins with employees to get branch info
+  const filterByBranch = useCallback((branch, employees) => {
+    if (!branch || branch === 'All') return documents;
+    if (!employees || employees.length === 0) return documents;
+    
+    // Get employee IDs that belong to the selected branch
+    const employeeIdsInBranch = employees
+      .filter(emp => emp.branch === branch)
+      .map(emp => emp.employeeId);
+    
+    return documents.filter(doc => employeeIdsInBranch.includes(doc.employeeId));
+  }, [documents]);
+
   const value = {
     documents,
     addDocument,
@@ -104,6 +117,7 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     filterByType,
     filterByStatus,
     filterByEmployeeId,
+    filterByBranch,
     getExpiringDocuments,
     getExpiredDocuments,
     getValidDocuments,

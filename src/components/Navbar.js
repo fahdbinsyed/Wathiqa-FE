@@ -7,7 +7,8 @@ import {
   LogOut,
   Sun,
   Moon,
-  Globe
+  Globe,
+  MapPin
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useSettings } from '../hooks/useSettings';
@@ -18,7 +19,7 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const { logout, currentUser } = useAuth();
-  const { isDarkMode, toggleDarkMode, language, toggleLanguage } = useSettings();
+  const { isDarkMode, toggleDarkMode, language, toggleLanguage, selectedBranch, setSelectedBranch } = useSettings();
   const { getExpiringDocuments } = useDocuments();
 
   const expiringDocs = getExpiringDocuments();
@@ -71,6 +72,23 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
       </div>
 
       <div className="navbar-right">
+        {/* Branch Selector */}
+        <div className="navbar-branch-selector">
+          <MapPin size={16} className="navbar-branch-icon" />
+          <select
+            value={selectedBranch}
+            onChange={(e) => setSelectedBranch(e.target.value)}
+            className="navbar-branch-select"
+            title="Select Branch"
+          >
+            <option value="All">All Branches</option>
+            <option value="BR001">Riyadh</option>
+            <option value="BR002">Dammam</option>
+            <option value="BR003">Jeddah</option>
+            <option value="BR004">Al Qassim</option>
+          </select>
+        </div>
+
         {/* Theme Toggle */}
         {/* <button
           className="navbar-icon-btn"

@@ -10,9 +10,9 @@ import { useSettings } from '../hooks/useSettings';
 import '../styles/Documents.css';
 
 const Documents = () => {
-  const { documents, addDocument, deleteDocument, filterByType, filterByStatus } = useDocuments();
+  const { documents, addDocument, deleteDocument, filterByType, filterByStatus, filterByBranch } = useDocuments();
   const { employees } = useEmployees();
-  const { language } = useSettings();
+  const { language, selectedBranch } = useSettings();
   const [showForm, setShowForm] = useState(false);
   const [typeFilter, setTypeFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
@@ -49,6 +49,11 @@ const Documents = () => {
   const filteredDocuments = useMemo(() => {
     let filtered = documents;
 
+    // Apply branch filter from navbar
+    if (selectedBranch && selectedBranch !== 'All') {
+      filtered = filterByBranch(selectedBranch, employees);
+    }
+
     if (typeFilter) {
       filtered = filterByType(typeFilter);
     }
@@ -66,7 +71,7 @@ const Documents = () => {
     }
 
     return filtered;
-  }, [documents, typeFilter, statusFilter, searchQuery, filterByType, filterByStatus]);
+  }, [documents, typeFilter, statusFilter, searchQuery, filterByType, filterByStatus, filterByBranch, selectedBranch, employees]);
 
   const handleAddDocument = (formData) => {
     addDocument(formData);
