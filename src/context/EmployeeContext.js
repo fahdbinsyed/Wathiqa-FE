@@ -58,6 +58,11 @@ export const EmployeeProvider = ({ children }) => {
     return employees.filter(emp => emp.employeeStatus === status);
   }, [employees]);
 
+  const filterByBranch = useCallback((branchId) => {
+    if (!branchId || branchId === 'All') return employees;
+    return employees.filter(emp => emp.branchId === branchId);
+  }, [employees]);
+
   const value = {
     employees,
     addEmployee,
@@ -66,7 +71,8 @@ export const EmployeeProvider = ({ children }) => {
     getEmployeeById,
     searchEmployees,
     filterByDepartment,
-    filterByStatus
+    filterByStatus,
+    filterByBranch
   };
 
   return (

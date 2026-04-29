@@ -1,19 +1,14 @@
-// DocumentContext.js
+// VehicleDocumentContext.js
 import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
-import { mockDocuments } from '../data/mockDocuments';
+import { mockVehicleDocuments } from '../data/mockVehicleDocuments';
 import { getDocumentStatus } from '../utils/statusUtils';
 
-export const DocumentContext = createContext();
+export const VehicleDocumentContext = createContext();
 
-export const DocumentProvider = ({ children, reminderDays = 60 }) => {
+export const VehicleDocumentProvider = ({ children, reminderDays = 60 }) => {
   const [rawDocuments, setRawDocuments] = useState(() => {
-    const saved = localStorage.getItem('documents');
-    return saved ? JSON.parse(saved) : mockDocuments;
-  });
-
-  const [readNotifications, setReadNotifications] = useState(() => {
-    const saved = localStorage.getItem('readNotifications');
-    return saved ? JSON.parse(saved) : [];
+    const saved = localStorage.getItem('vehicleDocuments');
+    return saved ? JSON.parse(saved) : mockVehicleDocuments;
   });
 
   // Memoize documents with calculated status based on reminderDays
@@ -25,17 +20,13 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
   }, [rawDocuments, reminderDays]);
 
   useEffect(() => {
-    localStorage.setItem('documents', JSON.stringify(rawDocuments));
+    localStorage.setItem('vehicleDocuments', JSON.stringify(rawDocuments));
   }, [rawDocuments]);
-
-  useEffect(() => {
-    localStorage.setItem('readNotifications', JSON.stringify(readNotifications));
-  }, [readNotifications]);
 
   const addDocument = useCallback((document) => {
     const newDocument = {
       ...document,
-      documentId: `DOC${String(Math.max(...rawDocuments.map(d => parseInt(d.documentId.replace('DOC', '')) || 0)) + 1).padStart(3, '0')}`
+      documentId: `VDC${String(Math.max(...rawDocuments.map(d => parseInt(d.documentId.replace('VDC', '')) || 0)) + 1).padStart(3, '0')}`
     };
     setRawDocuments([...rawDocuments, newDocument]);
     return newDocument;
@@ -55,13 +46,13 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     return documents.find(doc => doc.documentId === documentId);
   }, [documents]);
 
-  const getDocumentsByEmployeeId = useCallback((employeeId) => {
-    return documents.filter(doc => doc.employeeId === employeeId);
+  const getDocumentsByVehicleId = useCallback((vehicleId) => {
+    return documents.filter(doc => doc.vehicleId === vehicleId);
   }, [documents]);
 
   const searchDocuments = useCallback((query) => {
     if (!query.trim()) return documents;
-    
+
     const lowerQuery = query.toLowerCase();
     return documents.filter(doc =>
       doc.documentId.toLowerCase().includes(lowerQuery) ||
@@ -78,11 +69,6 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
   const filterByStatus = useCallback((status) => {
     if (!status) return documents;
     return documents.filter(doc => doc.status === status);
-  }, [documents]);
-
-  const filterByEmployeeId = useCallback((employeeId) => {
-    if (!employeeId) return documents;
-    return documents.filter(doc => doc.employeeId === employeeId);
   }, [documents]);
 
   const filterByBranch = useCallback((branchId) => {
@@ -102,27 +88,6 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     return documents.filter(doc => doc.status === 'Valid');
   }, [documents]);
 
-  const notifications = useMemo(() => {
-    return documents
-      .filter(doc => doc.status === 'Expiring Soon')
-      .map(doc => ({
-        ...doc,
-        read: readNotifications.includes(doc.documentId)
-      }));
-  }, [documents, readNotifications]);
-
-  const unreadNotifications = useMemo(() => notifications.filter(notification => !notification.read), [notifications]);
-
-  const markNotificationRead = useCallback((documentId) => {
-    setReadNotifications((prev) =>
-      prev.includes(documentId) ? prev : [...prev, documentId]
-    );
-  }, []);
-
-  const markAllNotificationsRead = useCallback(() => {
-    setReadNotifications(notifications.map((notification) => notification.documentId));
-  }, [notifications]);
-
   const getDocumentTypes = useCallback(() => {
     const types = new Set(documents.map(doc => doc.documentType));
     return Array.from(types);
@@ -134,25 +99,20 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     updateDocument,
     deleteDocument,
     getDocumentById,
-    getDocumentsByEmployeeId,
+    getDocumentsByVehicleId,
     searchDocuments,
     filterByType,
     filterByStatus,
-    filterByEmployeeId,
     filterByBranch,
     getExpiringDocuments,
     getExpiredDocuments,
     getValidDocuments,
-    getDocumentTypes,
-    notifications,
-    unreadNotifications,
-    markNotificationRead,
-    markAllNotificationsRead
+    getDocumentTypes
   };
 
   return (
-    <DocumentContext.Provider value={value}>
+    <VehicleDocumentContext.Provider value={value}>
       {children}
-    </DocumentContext.Provider>
+    </VehicleDocumentContext.Provider>
   );
 };

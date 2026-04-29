@@ -1,41 +1,32 @@
-// DocumentContext.js
+// CompanyDocumentContext.js
 import React, { createContext, useState, useEffect, useCallback, useMemo } from 'react';
-import { mockDocuments } from '../data/mockDocuments';
+import { mockCompanyDocuments } from '../data/mockCompanyDocuments';
 import { getDocumentStatus } from '../utils/statusUtils';
 
-export const DocumentContext = createContext();
+export const CompanyDocumentContext = createContext();
 
-export const DocumentProvider = ({ children, reminderDays = 60 }) => {
+export const CompanyDocumentProvider = ({ children, reminderDays = 60 }) => {
   const [rawDocuments, setRawDocuments] = useState(() => {
-    const saved = localStorage.getItem('documents');
-    return saved ? JSON.parse(saved) : mockDocuments;
-  });
-
-  const [readNotifications, setReadNotifications] = useState(() => {
-    const saved = localStorage.getItem('readNotifications');
-    return saved ? JSON.parse(saved) : [];
+    const saved = localStorage.getItem('companyDocuments');
+    return saved ? JSON.parse(saved) : mockCompanyDocuments;
   });
 
   // Memoize documents with calculated status based on reminderDays
   const documents = useMemo(() => {
     return rawDocuments.map(doc => ({
       ...doc,
-      status: getDocumentStatus(doc.expiryDate, reminderDays)
+      status: doc.hasExpiry ? getDocumentStatus(doc.expiryDate, reminderDays) : 'Valid'
     }));
   }, [rawDocuments, reminderDays]);
 
   useEffect(() => {
-    localStorage.setItem('documents', JSON.stringify(rawDocuments));
+    localStorage.setItem('companyDocuments', JSON.stringify(rawDocuments));
   }, [rawDocuments]);
-
-  useEffect(() => {
-    localStorage.setItem('readNotifications', JSON.stringify(readNotifications));
-  }, [readNotifications]);
 
   const addDocument = useCallback((document) => {
     const newDocument = {
       ...document,
-      documentId: `DOC${String(Math.max(...rawDocuments.map(d => parseInt(d.documentId.replace('DOC', '')) || 0)) + 1).padStart(3, '0')}`
+      documentId: `COMP${String(Math.max(...rawDocuments.map(d => parseInt(d.documentId.replace('COMP', '')) || 0)) + 1).padStart(3, '0')}`
     };
     setRawDocuments([...rawDocuments, newDocument]);
     return newDocument;
@@ -55,34 +46,25 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     return documents.find(doc => doc.documentId === documentId);
   }, [documents]);
 
-  const getDocumentsByEmployeeId = useCallback((employeeId) => {
-    return documents.filter(doc => doc.employeeId === employeeId);
-  }, [documents]);
-
   const searchDocuments = useCallback((query) => {
     if (!query.trim()) return documents;
-    
+
     const lowerQuery = query.toLowerCase();
     return documents.filter(doc =>
       doc.documentId.toLowerCase().includes(lowerQuery) ||
-      doc.documentType.toLowerCase().includes(lowerQuery) ||
+      doc.documentName.toLowerCase().includes(lowerQuery) ||
       doc.documentNumber.toLowerCase().includes(lowerQuery)
     );
   }, [documents]);
 
   const filterByType = useCallback((type) => {
     if (!type) return documents;
-    return documents.filter(doc => doc.documentType === type);
+    return documents.filter(doc => doc.documentName === type);
   }, [documents]);
 
   const filterByStatus = useCallback((status) => {
     if (!status) return documents;
     return documents.filter(doc => doc.status === status);
-  }, [documents]);
-
-  const filterByEmployeeId = useCallback((employeeId) => {
-    if (!employeeId) return documents;
-    return documents.filter(doc => doc.employeeId === employeeId);
   }, [documents]);
 
   const filterByBranch = useCallback((branchId) => {
@@ -102,29 +84,8 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     return documents.filter(doc => doc.status === 'Valid');
   }, [documents]);
 
-  const notifications = useMemo(() => {
-    return documents
-      .filter(doc => doc.status === 'Expiring Soon')
-      .map(doc => ({
-        ...doc,
-        read: readNotifications.includes(doc.documentId)
-      }));
-  }, [documents, readNotifications]);
-
-  const unreadNotifications = useMemo(() => notifications.filter(notification => !notification.read), [notifications]);
-
-  const markNotificationRead = useCallback((documentId) => {
-    setReadNotifications((prev) =>
-      prev.includes(documentId) ? prev : [...prev, documentId]
-    );
-  }, []);
-
-  const markAllNotificationsRead = useCallback(() => {
-    setReadNotifications(notifications.map((notification) => notification.documentId));
-  }, [notifications]);
-
   const getDocumentTypes = useCallback(() => {
-    const types = new Set(documents.map(doc => doc.documentType));
+    const types = new Set(documents.map(doc => doc.documentName));
     return Array.from(types);
   }, [documents]);
 
@@ -134,25 +95,19 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     updateDocument,
     deleteDocument,
     getDocumentById,
-    getDocumentsByEmployeeId,
     searchDocuments,
     filterByType,
     filterByStatus,
-    filterByEmployeeId,
     filterByBranch,
     getExpiringDocuments,
     getExpiredDocuments,
     getValidDocuments,
-    getDocumentTypes,
-    notifications,
-    unreadNotifications,
-    markNotificationRead,
-    markAllNotificationsRead
+    getDocumentTypes
   };
 
   return (
-    <DocumentContext.Provider value={value}>
+    <CompanyDocumentContext.Provider value={value}>
       {children}
-    </DocumentContext.Provider>
+    </CompanyDocumentContext.Provider>
   );
 };

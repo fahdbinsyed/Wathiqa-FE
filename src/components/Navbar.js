@@ -1,5 +1,5 @@
 // components/Navbar.js
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Bell,
   Search,
@@ -7,7 +7,8 @@ import {
   LogOut,
   Sun,
   Moon,
-  Globe
+  Globe,
+  MapPin
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useSettings } from '../hooks/useSettings';
@@ -18,10 +19,32 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const { logout, currentUser } = useAuth();
-  const { isDarkMode, toggleDarkMode, language, toggleLanguage } = useSettings();
-  const { getExpiringDocuments } = useDocuments();
+  const { isDarkMode, toggleDarkMode, language, toggleLanguage, notificationsEnabled, selectedBranch, setSelectedBranch } = useSettings();
+  const { notifications, unreadNotifications, markNotificationRead, markAllNotificationsRead } = useDocuments();
 
-  const expiringDocs = getExpiringDocuments();
+  const notificationRef = useRef(null);
+  const profileRef = useRef(null);
+
+  const unreadCount = unreadNotifications.length;
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target) &&
+        profileRef.current &&
+        !profileRef.current.contains(event.target)
+      ) {
+        setIsNotificationsOpen(false);
+        setIsProfileOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const translations = {
     en: {
@@ -31,7 +54,9 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
       logout: 'Logout',
       notifications: 'Notifications',
       noNotifications: 'No new notifications',
-      expiringSoon: 'Document expiring soon'
+      expiringSoon: 'Document expiring soon',
+      markAllRead: 'Mark all as read',
+      notificationsDisabled: 'Notifications are disabled. Enable them in settings.'
     },
     ar: {
       search: 'بحث...',
@@ -40,7 +65,9 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
       logout: 'تسجيل الخروج',
       notifications: 'الإشعارات',
       noNotifications: 'لا توجد إشعارات جديدة',
-      expiringSoon: 'مستند ينتهي قريباً'
+      expiringSoon: 'مستند ينتهي قريباً',
+      markAllRead: 'وضع الجميع كمقروءة',
+      notificationsDisabled: 'الإشعارات معطلة. قم بتفعيلها في الإعدادات.'
     }
   };
 
@@ -71,14 +98,22 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
       </div>
 
       <div className="navbar-right">
-        {/* Theme Toggle */}
-        {/* <button
-          className="navbar-icon-btn"
-          onClick={toggleDarkMode}
-          title={isDarkMode ? 'Light Mode' : 'Dark Mode'}
-        >
-          {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-        </button> */}
+        {/* Branch Selector */}
+        <div className="navbar-branch-selector">
+          <MapPin size={16} className="navbar-branch-icon" />
+          <select
+            value={selectedBranch}
+            onChange={(e) => setSelectedBranch(e.target.value)}
+            className="navbar-branch-select"
+            title="Select Branch"
+          >
+            <option value="All">All Branches</option>
+            <option value="BR001">Riyadh</option>
+            <option value="BR002">Dammam</option>
+            <option value="BR003">Jeddah</option>
+            <option value="BR004">Al Qassim</option>
+          </select>
+        </div>
 
         {/* Language Toggle */}
         <button
@@ -91,15 +126,18 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
         </button>
 
         {/* Notifications */}
-        <div className="navbar-notification-container">
+        <div className="navbar-notification-container" ref={notificationRef}>
           <button
             className="navbar-icon-btn"
-            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+            onClick={() => {
+              setIsNotificationsOpen((prev) => !prev);
+              setIsProfileOpen(false);
+            }}
             title={t.notifications}
           >
             <Bell size={20} />
-            {expiringDocs.length > 0 && (
-              <span className="notification-badge">{expiringDocs.length}</span>
+            {notificationsEnabled && unreadCount > 0 && (
+              <span className="notification-badge">{unreadCount}</span>
             )}
           </button>
 
@@ -107,11 +145,27 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
             <div className="navbar-notification-dropdown">
               <div className="notification-header">
                 <h3>{t.notifications}</h3>
+                {notificationsEnabled && unreadCount > 0 && (
+                  <button
+                    className="mark-read-btn"
+                    onClick={() => markAllNotificationsRead()}
+                  >
+                    {t.markAllRead}
+                  </button>
+                )}
               </div>
               <div className="notification-list">
-                {expiringDocs.length > 0 ? (
-                  expiringDocs.slice(0, 5).map((doc) => (
-                    <div key={doc.documentId} className="notification-item">
+                {!notificationsEnabled ? (
+                  <div className="notification-empty">
+                    <p>{t.notificationsDisabled}</p>
+                  </div>
+                ) : notifications.length > 0 ? (
+                  notifications.slice(0, 5).map((doc) => (
+                    <div
+                      key={doc.documentId}
+                      className={`notification-item ${doc.read ? 'read' : ''}`}
+                      onClick={() => markNotificationRead(doc.documentId)}
+                    >
                       <div className="notification-dot" />
                       <div className="notification-content">
                         <p className="notification-title">{doc.documentType}</p>
@@ -130,10 +184,13 @@ const Navbar = ({ onMenuClick, searchQuery, onSearchChange }) => {
         </div>
 
         {/* Profile */}
-        <div className="navbar-profile-container">
+        <div className="navbar-profile-container" ref={profileRef}>
           <button
             className="navbar-profile-btn"
-            onClick={() => setIsProfileOpen(!isProfileOpen)}
+            onClick={() => {
+              setIsProfileOpen((prev) => !prev);
+              setIsNotificationsOpen(false);
+            }}
           >
             <img
               src={currentUser?.photo || '/data/no-dp.jpg'}

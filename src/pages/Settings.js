@@ -6,9 +6,10 @@ import { useSettings } from '../hooks/useSettings';
 import '../styles/Settings.css';
 
 const Settings = () => {
-  const { reminderDays, setReminderDays, isDarkMode, toggleDarkMode, language, toggleLanguage, companyName, setCompanyName } = useSettings();
+  const { reminderDays, setReminderDays, isDarkMode, toggleDarkMode, language, toggleLanguage, companyName, setCompanyName, notificationsEnabled, setNotificationsEnabled } = useSettings();
   const [localReminderDays, setLocalReminderDays] = useState(reminderDays);
   const [localCompanyName, setLocalCompanyName] = useState(companyName);
+  const [localNotificationsEnabled, setLocalNotificationsEnabled] = useState(notificationsEnabled);
   const [saved, setSaved] = useState(false);
 
   const translations = {
@@ -31,6 +32,8 @@ const Settings = () => {
       arabic: 'العربية',
       documentReminder: 'Document Reminders',
       documentReminderDesc: 'Get notified when documents are about to expire',
+      notificationsEnabled: 'Enable Notifications',
+      notificationsEnabledDesc: 'Toggle notifications for expiring documents',
       saveSettings: 'Save Settings',
       settingsSaved: 'Settings saved successfully!'
     },
@@ -53,6 +56,8 @@ const Settings = () => {
       arabic: 'العربية',
       documentReminder: 'تذكيرات المستندات',
       documentReminderDesc: 'احصل على إشعار عند اقتراب انتهاء صلاحية المستندات',
+      notificationsEnabled: 'تفعيل الإشعارات',
+      notificationsEnabledDesc: 'تبديل الإشعارات للمستندات التي على وشك الانتهاء',
       saveSettings: 'حفظ الإعدادات',
       settingsSaved: 'تم حفظ الإعدادات بنجاح!'
     }
@@ -63,6 +68,7 @@ const Settings = () => {
   const handleSaveSettings = () => {
     setReminderDays(localReminderDays);
     setCompanyName(localCompanyName);
+    setNotificationsEnabled(localNotificationsEnabled);
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   };
@@ -151,10 +157,13 @@ const Settings = () => {
 
           <div className="setting-item">
             <div className="setting-info">
-              <label>{t.documentReminder}</label>
-              <p>{t.documentReminderDesc}</p>
+              <label>{t.notificationsEnabled}</label>
+              <p>{t.notificationsEnabledDesc}</p>
             </div>
-            <button className="toggle-btn active">
+            <button
+              className={`toggle-btn ${localNotificationsEnabled ? 'active' : ''}`}
+              onClick={() => setLocalNotificationsEnabled(!localNotificationsEnabled)}
+            >
               <span className="toggle-thumb" />
             </button>
           </div>

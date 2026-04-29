@@ -78,6 +78,16 @@ body.dark-mode .employee-table tbody tr:hover {
   color: var(--text-secondary);
 }
 
+.salary {
+  font-weight: 600;
+  color: var(--success);
+  text-align: right;
+}
+
+body.dark-mode .salary {
+  color: #10B981;
+}
+
 .status-badge {
   display: inline-flex;
   align-items: center;

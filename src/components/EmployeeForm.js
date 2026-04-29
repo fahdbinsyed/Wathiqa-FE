@@ -17,8 +17,10 @@ const EmployeeForm = ({ employee, onSubmit, onCancel }) => {
     jobTitle: '',
     manager: '',
     joiningDate: '',
+    rejoinDate: '',
     employeeStatus: 'Active',
-    profilePhoto: ''
+    profilePhoto: '',
+    salary: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -245,6 +247,29 @@ const EmployeeForm = ({ employee, onSubmit, onCancel }) => {
                 value={formData.profilePhoto}
                 onChange={handleChange}
                 placeholder="Enter photo URL"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Salary</label>
+              <input
+                type="number"
+                name="salary"
+                value={formData.salary}
+                onChange={handleChange}
+                placeholder="Enter salary"
+                min="0"
+                step="0.01"
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Rejoin Date</label>
+              <input
+                type="date"
+                name="rejoinDate"
+                value={formData.rejoinDate}
+                onChange={handleChange}
               />
             </div>
           </div>

@@ -29,6 +29,16 @@ export const SettingsProvider = ({ children }) => {
     return saved || null;
   });
 
+  const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
+    const saved = localStorage.getItem('notificationsEnabled');
+    return saved ? JSON.parse(saved) : true;
+  });
+
+  const [selectedBranch, setSelectedBranch] = useState(() => {
+    const saved = localStorage.getItem('selectedBranch');
+    return saved || 'All';
+  });
+
   // Save to localStorage whenever settings change
   useEffect(() => {
     localStorage.setItem('reminderDays', reminderDays);
@@ -52,6 +62,14 @@ export const SettingsProvider = ({ children }) => {
     }
   }, [companyLogo]);
 
+  useEffect(() => {
+    localStorage.setItem('notificationsEnabled', JSON.stringify(notificationsEnabled));
+  }, [notificationsEnabled]);
+
+  useEffect(() => {
+    localStorage.setItem('selectedBranch', selectedBranch);
+  }, [selectedBranch]);
+
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
   };
@@ -70,7 +88,11 @@ export const SettingsProvider = ({ children }) => {
     companyName,
     setCompanyName,
     companyLogo,
-    setCompanyLogo
+    setCompanyLogo,
+    notificationsEnabled,
+    setNotificationsEnabled,
+    selectedBranch,
+    setSelectedBranch
   };
 
   return (

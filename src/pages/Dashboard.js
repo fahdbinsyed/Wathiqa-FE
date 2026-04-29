@@ -1,177 +1,105 @@
 // pages/Dashboard.js
 import React, { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-  Users, FileText, AlertCircle, CheckCircle,
-  TrendingUp, Activity
+  Users, Building, Car
 } from 'lucide-react';
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import PageHeader from '../components/PageHeader';
 import DashboardCard from '../components/DashboardCard';
-import DocumentTable from '../components/DocumentTable';
-import StatusBadge from '../components/StatusBadge';
-import { useEmployees } from '../hooks/useEmployees';
-import { useDocuments } from '../hooks/useDocuments';
 import { useSettings } from '../hooks/useSettings';
-import { formatDateToDisplay, calculateDaysRemaining } from '../utils/dateUtils';
+import { useDocuments } from '../hooks/useDocuments';
+import { useCompanyDocuments } from '../hooks/useCompanyDocuments';
+import { useVehicleDocuments } from '../hooks/useVehicleDocuments';
 import { getStatusColor } from '../utils/statusUtils';
 import '../styles/Dashboard.css';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
 const Dashboard = () => {
-  const { employees } = useEmployees();
-  const { documents } = useDocuments();
+  const navigate = useNavigate();
   const { language } = useSettings();
+
+  const { documents } = useDocuments();
+  const { documents: companyDocuments } = useCompanyDocuments();
+  const { documents: vehicleDocuments } = useVehicleDocuments();
 
   const translations = {
     en: {
-      title: 'Dashboard',
-      description: 'Overview of your employee documents and compliance status',
-      totalEmployees: 'Total Employees',
-      totalDocuments: 'Total Documents',
-      expiringDocuments: 'Expiring Soon',
-      expiredDocuments: 'Expired Documents',
-      documentStatus: 'Document Status Distribution',
-      departmentCompliance: 'Department Compliance',
-      recentExpiringDocuments: 'Recently Expiring Documents',
-      valid: 'Valid',
-      expiringS: 'Expiring Soon',
-      expired: 'Expired'
+      title: 'Navigation Dashboard',
+      description: 'Access different document management modules',
+      documentStatus: 'Document Status',
+      employeeStatus: 'Employee Documents Status',
+      companyStatus: 'Company Documents Status',
+      vehicleStatus: 'Vehicle Documents Status'
     },
     ar: {
-      title: 'لوحة التحكم',
-      description: 'نظرة عامة على مستندات الموظفين وحالة الامتثال',
-      totalEmployees: 'إجمالي الموظفين',
-      totalDocuments: 'إجمالي المستندات',
-      expiringDocuments: 'ينتهي قريباً',
-      expiredDocuments: 'منتهية الصلاحية',
-      documentStatus: 'توزيع حالة المستندات',
-      departmentCompliance: 'امتثال القسم',
-      recentExpiringDocuments: 'المستندات التي تنتهي مؤخراً',
-      valid: 'صحيح',
-      expiringS: 'ينتهي قريباً',
-      expired: 'منتهية الصلاحية'
+      title: 'لوحة التنقل',
+      description: 'الوصول إلى وحدات إدارة المستندات المختلفة',
+      documentStatus: 'حالة المستند',
+      employeeStatus: 'حالة مستندات الموظفين',
+      companyStatus: 'حالة المستندات الشركات',
+      vehicleStatus: 'حالة مستندات المركبات'
     }
   };
 
   const t = translations[language] || translations.en;
 
-  // Calculate statistics
-  const stats = useMemo(() => {
-    const validCount = documents.filter(d => d.status === 'Valid').length;
-    const expiringCount = documents.filter(d => d.status === 'Expiring Soon').length;
-    const expiredCount = documents.filter(d => d.status === 'Expired').length;
-    const totalCount = documents.length;
+  const getStatusChartData = (items) => {
+    const grouped = items.reduce((acc, doc) => {
+      if (!doc.status) return acc;
+      acc[doc.status] = (acc[doc.status] || 0) + 1;
+      return acc;
+    }, {});
 
-    return {
-      totalEmployees: employees.length,
-      totalDocuments: totalCount,
-      expiringDocuments: expiringCount,
-      expiredDocuments: expiredCount,
-      validCount,
-      expiringCount,
-      expiredCount
-    };
-  }, [documents, employees]);
-
-  // Prepare chart data
-  const statusChartData = useMemo(() => [
-    { name: t.valid, value: stats.validCount, color: '#22C55E' },
-    { name: t.expiringS, value: stats.expiringCount, color: '#F59E0B' },
-    { name: t.expired, value: stats.expiredCount, color: '#EF4444' }
-  ].filter(item => item.value > 0), [stats, t]);
-
-  const departmentChartData = useMemo(() => {
-    const deptMap = {};
-    employees.forEach(emp => {
-      if (!deptMap[emp.department]) {
-        deptMap[emp.department] = { total: 0, valid: 0 };
-      }
-      deptMap[emp.department].total++;
-    });
-
-    documents.forEach(doc => {
-      const emp = employees.find(e => e.employeeId === doc.employeeId);
-      if (emp && doc.status === 'Valid') {
-        deptMap[emp.department].valid++;
-      }
-    });
-
-    return Object.keys(deptMap).map(dept => ({
-      name: dept,
-      compliance: deptMap[dept].total > 0 ? Math.round((deptMap[dept].valid / deptMap[dept].total) * 100) : 0
-    }));
-  }, [employees, documents]);
-
-  // Get expiring soon documents
-  const expiringDocuments = useMemo(() => {
-    return documents
-      .filter(d => d.status === 'Expiring Soon')
-      .sort((a, b) => calculateDaysRemaining(a.expiryDate) - calculateDaysRemaining(b.expiryDate))
-      .slice(0, 5);
-  }, [documents]);
-
-  const getEmployeeName = (employeeId) => {
-    const emp = employees.find(e => e.employeeId === employeeId);
-    return emp ? emp.fullName : 'Unknown';
+    return [
+      { name: 'Valid', value: grouped.Valid || 0, color: getStatusColor('Valid') },
+      { name: 'Expiring Soon', value: grouped['Expiring Soon'] || 0, color: getStatusColor('Expiring Soon') },
+      { name: 'Expired', value: grouped.Expired || 0, color: getStatusColor('Expired') }
+    ].filter(entry => entry.value > 0);
   };
 
-  const getDocumentStatus = (expiryDate) => {
-    const today = new Date();
-    const expDate = new Date(expiryDate);
-    const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
+  const employeeStatusChartData = useMemo(() => getStatusChartData(documents), [documents]);
+  const companyStatusChartData = useMemo(() => getStatusChartData(companyDocuments), [companyDocuments]);
+  const vehicleStatusChartData = useMemo(() => getStatusChartData(vehicleDocuments), [vehicleDocuments]);
 
-    if (diffDays < 0) return "Expired";
-    if (diffDays <= 30) return "Expiring Soon";
-
-    return "Valid";
-  };
-  
   return (
     <div className="dashboard-page">
       <PageHeader
         title={t.title}
         description={t.description}
-        icon={Activity}
+        icon={Users}
       />
 
-      {/* Stats Cards */}
-      <div className="stats-grid">
+      {/* Navigation Cards */}
+      <div className="navigation-grid">
         <DashboardCard
-          title={t.totalEmployees}
-          value={stats.totalEmployees}
+          title="Employee Documents"
           icon={Users}
           color="primary"
+          onClick={() => navigate('/employees')}
         />
         <DashboardCard
-          title={t.totalDocuments}
-          value={stats.totalDocuments}
-          icon={FileText}
+          title="Company Documents"
+          icon={Building}
           color="primary"
+          onClick={() => navigate('/company-documents')}
         />
         <DashboardCard
-          title={t.expiringDocuments}
-          value={stats.expiringDocuments}
-          icon={AlertCircle}
-          color="warning"
-        />
-        <DashboardCard
-          title={t.expiredDocuments}
-          value={stats.expiredDocuments}
-          icon={AlertCircle}
-          color="danger"
+          title="Vehicle Documents"
+          icon={Car}
+          color="primary"
+          onClick={() => navigate('/vehicle-documents')}
         />
       </div>
 
-      {/* 
-      <div className="charts-grid">
-        {/* Status Distribution * /}
+      {/* <div className="charts-grid">
         <div className="chart-card">
-          <h3>{t.documentStatus}</h3>
+          <h3>{t.employeeStatus}</h3>
           <div className="chart-container">
-            {statusChartData.length > 0 ? (
+            {employeeStatusChartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie
-                    data={statusChartData}
+                    data={employeeStatusChartData}
                     cx="50%"
                     cy="50%"
                     labelLine={false}
@@ -180,8 +108,8 @@ const Dashboard = () => {
                     fill="#8884d8"
                     dataKey="value"
                   >
-                    {statusChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    {employeeStatusChartData.map((entry, index) => (
+                      <Cell key={`emp-cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -193,70 +121,64 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Department Compliance * /}
         <div className="chart-card">
-          <h3>{t.departmentCompliance}</h3>
+          <h3>{t.companyStatus}</h3>
           <div className="chart-container">
-            {departmentChartData.length > 0 ? (
+            {companyStatusChartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={departmentChartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
+                <PieChart>
+                  <Pie
+                    data={companyStatusChartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, value }) => `${name}: ${value}`}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {companyStatusChartData.map((entry, index) => (
+                      <Cell key={`company-cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
                   <Tooltip />
-                  <Bar dataKey="compliance" fill={getStatusColor('Valid')} radius={[8, 8, 0, 0]} />
-                </BarChart>
+                </PieChart>
               </ResponsiveContainer>
             ) : (
               <p className="no-data">No data available</p>
             )}
           </div>
         </div>
-      </div>
-      */}
 
-      {/* Expiring Documents Table */}
-      <div className="expiring-section">
-        <h2>{t.recentExpiringDocuments}</h2>
-        <div className="expiring-table-wrapper">
-          {expiringDocuments.length > 0 ? (
-            <table className="expiring-table">
-              <thead>
-                <tr>
-                  <th>Employee</th>
-                  <th>Document Type</th>
-                  <th>Expiry Date</th>
-                  <th>Days Remaining</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {expiringDocuments.map((doc) => (
-                  <tr key={doc.documentId}>
-                    <td className="emp-name">{getEmployeeName(doc.employeeId)}</td>
-                    <td>{doc.documentType ?? "Null"}</td>
-                    <td>{formatDateToDisplay(doc.expiryDate)}</td>
-                    <td>
-                      <span className="days-badge">
-                        {calculateDaysRemaining(doc.expiryDate)} days
-                      </span>
-                    </td>
-                    <td>
-                      <StatusBadge status={getDocumentStatus(doc.expiryDate)} size="small" />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <div className="empty-state">
-              <CheckCircle size={48} />
-              <p className="empty-title">All documents are valid!</p>
-              <p className="empty-desc">No documents expiring soon</p>
-            </div>
-          )}
+        <div className="chart-card">
+          <h3>{t.vehicleStatus}</h3>
+          <div className="chart-container">
+            {vehicleStatusChartData.length > 0 ? (
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={vehicleStatusChartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, value }) => `${name}: ${value}`}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {vehicleStatusChartData.map((entry, index) => (
+                      <Cell key={`vehicle-cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <p className="no-data">No data available</p>
+            )}
+          </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

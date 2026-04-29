@@ -15,6 +15,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_ahmed_001.pdf",
     notes: "Iqama renewing soon",
+    branchId: "BR001",
+    branchName: "Riyadh"
   },
   {
     documentId: "DOC002",
@@ -26,6 +28,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Ministry of Foreign Affairs",
     documentFile: "passport_ahmed_001.pdf",
     notes: "Passport expires very soon",
+    branchId: "BR001",
+    branchName: "Riyadh"
   },
   {
     documentId: "DOC003",
@@ -37,6 +41,8 @@ export const mockDocuments = [
     issuingAuthority: "AXA Insurance",
     documentFile: "insurance_ahmed_001.pdf",
     notes: "Medical insurance valid",
+    branchId: "BR001",
+    branchName: "Riyadh"
   },
   {
     documentId: "DOC004",
@@ -48,19 +54,21 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Traffic Department",
     documentFile: "license_ahmed_001.pdf",
     notes: "License expired",
-    },
-  
-  // Ali Hassan documents
+    branchId: "BR001",
+    branchName: "Riyadh"
+  },
   {
     documentId: "DOC005",
     employeeId: "EMP002",
     documentType: "Iqama",
-    documentNumber: "9876543210",
-    issueDate: "2020-06-15",
-    expiryDate: addDays(today, 180),
+    documentNumber: "2345678901",
+    issueDate: "2019-06-10",
+    expiryDate: addDays(today, 150),
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_ali_001.pdf",
     notes: "Valid Iqama",
+    branchId: "BR002",
+    branchName: "Dammam"
   },
   {
     documentId: "DOC006",
@@ -72,6 +80,8 @@ export const mockDocuments = [
     issuingAuthority: "Riyadh Municipality",
     documentFile: "baladiya_ali_001.pdf",
     notes: "Valid Baladiya Card",
+    branchId: "BR002",
+    branchName: "Dammam"
   },
   {
     documentId: "DOC007",
@@ -83,6 +93,8 @@ export const mockDocuments = [
     issuingAuthority: "Bupa Insurance",
     documentFile: "insurance_ali_001.pdf",
     notes: "Insurance expired",
+    branchId: "BR002",
+    branchName: "Dammam"
   },
   {
     documentId: "DOC008",
@@ -94,6 +106,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Ministry of Foreign Affairs",
     documentFile: "passport_ali_001.pdf",
     notes: "Valid passport",
+    branchId: "BR002",
+    branchName: "Dammam"
   },
   
   // Omar Farooq documents
@@ -107,6 +121,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_omar_001.pdf",
     notes: "Iqama expiring in 45 days",
+    branchId: "BR001",
+    branchName: "Riyadh"
   },
   {
     documentId: "DOC010",
@@ -118,6 +134,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "visa_omar_001.pdf",
     notes: "Work visa expiring soon",
+    branchId: "BR001",
+    branchName: "Riyadh"
   },
   {
     documentId: "DOC011",
@@ -129,6 +147,8 @@ export const mockDocuments = [
     issuingAuthority: "Company HR",
     documentFile: "contract_omar_001.pdf",
     notes: "Employment contract",
+    branchId: "BR001",
+    branchName: "Riyadh"
   },
   {
     documentId: "DOC012",
@@ -140,6 +160,8 @@ export const mockDocuments = [
     issuingAuthority: "Medgulf Insurance",
     documentFile: "insurance_omar_001.pdf",
     notes: "Valid medical insurance",
+    branchId: "BR001",
+    branchName: "Riyadh"
   },
   
   // Yusuf Ali documents
@@ -153,6 +175,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_yusuf_001.pdf",
     notes: "Valid Iqama",
+    branchId: "BR003",
+    branchName: "Jeddah"
   },
   {
     documentId: "DOC014",
@@ -164,6 +188,8 @@ export const mockDocuments = [
     issuingAuthority: "Egyptian Ministry of Foreign Affairs",
     documentFile: "passport_yusuf_001.pdf",
     notes: "Passport expired",
+    branchId: "BR003",
+    branchName: "Jeddah"
   },
   {
     documentId: "DOC015",
@@ -175,7 +201,9 @@ export const mockDocuments = [
     issuingAuthority: "Riyadh Municipality",
     documentFile: "baladiya_yusuf_001.pdf",
     notes: "Valid Baladiya Card",
-},
+    branchId: "BR003",
+    branchName: "Jeddah"
+  },
   {
     documentId: "DOC016",
     employeeId: "EMP004",
@@ -186,6 +214,8 @@ export const mockDocuments = [
     issuingAuthority: "AXA Insurance",
     documentFile: "insurance_yusuf_001.pdf",
     notes: "Valid medical insurance",
+    branchId: "BR003",
+    branchName: "Jeddah"
   },
   {
     documentId: "DOC017",
@@ -197,6 +227,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Traffic Department",
     documentFile: "license_yusuf_001.pdf",
     notes: "Valid driving license",
+    branchId: "BR003",
+    branchName: "Jeddah"
   },
   
   // Ibrahim Malik documents
@@ -210,6 +242,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_ibrahim_001.pdf",
     notes: "Valid Iqama",
+    branchId: "BR002",
+    branchName: "Dammam"
   },
   {
     documentId: "DOC019",
@@ -221,6 +255,8 @@ export const mockDocuments = [
     issuingAuthority: "Bupa Insurance",
     documentFile: "insurance_ibrahim_001.pdf",
     notes: "Valid medical insurance",
+    branchId: "BR002",
+    branchName: "Dammam"
   },
   {
     documentId: "DOC020",
@@ -232,6 +268,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Ministry of Foreign Affairs",
     documentFile: "passport_ibrahim_001.pdf",
     notes: "Valid passport",
+    branchId: "BR002",
+    branchName: "Dammam"
   },
   
   // Fatima Al-Dosari documents
@@ -245,6 +283,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_fatima_001.pdf",
     notes: "Valid Iqama",
+    branchId: "BR001",
+    branchName: "Riyadh"
   },
   {
     documentId: "DOC022",
@@ -256,6 +296,8 @@ export const mockDocuments = [
     issuingAuthority: "Medgulf Insurance",
     documentFile: "insurance_fatima_001.pdf",
     notes: "Valid medical insurance",
+    branchId: "BR001",
+    branchName: "Riyadh"
   },
   {
     documentId: "DOC023",
@@ -267,7 +309,9 @@ export const mockDocuments = [
     issuingAuthority: "Riyadh Municipality",
     documentFile: "baladiya_fatima_001.pdf",
     notes: "New Baladiya Card",
-},
+    branchId: "BR001",
+    branchName: "Riyadh"
+  },
   
   // Hana Al-Sharif documents
   {
@@ -280,6 +324,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_hana_001.pdf",
     notes: "Iqama renewing soon",
+    branchId: "BR004",
+    branchName: "Al Qassim"
   },
   {
     documentId: "DOC025",
@@ -291,6 +337,8 @@ export const mockDocuments = [
     issuingAuthority: "Saudi Ministry of Foreign Affairs",
     documentFile: "passport_hana_001.pdf",
     notes: "Valid passport",
+    branchId: "BR004",
+    branchName: "Al Qassim"
   },
   {
     documentId: "DOC026",
@@ -302,6 +350,8 @@ export const mockDocuments = [
     issuingAuthority: "AXA Insurance",
     documentFile: "insurance_hana_001.pdf",
     notes: "Valid medical insurance",
+    branchId: "BR004",
+    branchName: "Al Qassim"
   },
   
   // Mohammed Saeed documents
@@ -315,7 +365,9 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_mohammed_001.pdf",
     notes: "Valid Iqama",
-},
+    branchId: "BR001",
+    branchName: "Riyadh"
+  },
   {
     documentId: "DOC028",
     employeeId: "EMP008",
@@ -326,7 +378,9 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "visa_mohammed_001.pdf",
     notes: "Work visa expired",
-    },
+    branchId: "BR001",
+    branchName: "Riyadh"
+  },
   {
     documentId: "DOC029",
     employeeId: "EMP008",
@@ -337,7 +391,9 @@ export const mockDocuments = [
     issuingAuthority: "Bupa Insurance",
     documentFile: "insurance_mohammed_001.pdf",
     notes: "Valid medical insurance",
-},
+    branchId: "BR001",
+    branchName: "Riyadh"
+  },
   
   // Noor Hassan documents
   {
@@ -350,7 +406,9 @@ export const mockDocuments = [
     issuingAuthority: "Saudi MOI",
     documentFile: "iqama_noor_001.pdf",
     notes: "Valid Iqama",
-},
+    branchId: "BR004",
+    branchName: "Al Qassim"
+  },
   {
     documentId: "DOC031",
     employeeId: "EMP009",
@@ -361,7 +419,9 @@ export const mockDocuments = [
     issuingAuthority: "Medgulf Insurance",
     documentFile: "insurance_noor_001.pdf",
     notes: "Valid medical insurance",
-},
+    branchId: "BR004",
+    branchName: "Al Qassim"
+  },
   {
     documentId: "DOC032",
     employeeId: "EMP009",
@@ -372,5 +432,7 @@ export const mockDocuments = [
     issuingAuthority: "Company HR",
     documentFile: "contract_noor_001.pdf",
     notes: "Employment contract",
- }
+    branchId: "BR004",
+    branchName: "Al Qassim"
+  }
 ];
