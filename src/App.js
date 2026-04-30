@@ -17,6 +17,8 @@ import Documents from './pages/Documents';
 import Reports from './pages/Reports';
 import Settings from './pages/Settings';
 import NotFound from './pages/NotFound';
+import Attendance from './pages/Attendance';
+import Salary from './pages/Salary';
 
 // Components
 import Layout from './components/Layout';
@@ -95,6 +97,24 @@ const AppContent = () => {
             element={
               <ProtectedRoute>
                 <Settings />
+              </ProtectedRoute>
+            }
+          />
+          
+          <Route
+            path="/attendance"
+            element={
+              <ProtectedRoute>
+                <Attendance />
+              </ProtectedRoute>
+            }
+          />
+          
+          <Route
+            path="/salary"
+            element={
+              <ProtectedRoute>
+                <Salary />
               </ProtectedRoute>
             }
           />

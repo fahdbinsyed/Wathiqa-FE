@@ -10,7 +10,9 @@ import {
   LogOut,
   Menu,
   X,
-  ChevronDown
+  ChevronDown,
+  Clock,
+  DollarSign
 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useSettings } from '../hooks/useSettings';
@@ -26,6 +28,8 @@ const Sidebar = ({ isOpen, onClose }) => {
       dashboard: 'Dashboard',
       employees: 'Employees',
       documents: 'Documents',
+      attendance: 'Attendance',
+      salary: 'Salary',
       reports: 'Reports',
       settings: 'Settings',
       logout: 'Logout',
@@ -35,6 +39,8 @@ const Sidebar = ({ isOpen, onClose }) => {
       dashboard: 'لوحة التحكم',
       employees: 'الموظفون',
       documents: 'المستندات',
+      attendance: 'الحضور والانصراف',
+      salary: 'الرواتب',
       reports: 'التقارير',
       settings: 'الإعدادات',
       logout: 'تسجيل الخروج',
@@ -48,6 +54,8 @@ const Sidebar = ({ isOpen, onClose }) => {
     { icon: Home, label: t.dashboard, path: '/dashboard', key: 'dashboard' },
     { icon: Users, label: t.employees, path: '/employees', key: 'employees' },
     { icon: FileText, label: t.documents, path: '/documents', key: 'documents' },
+    { icon: Clock, label: t.attendance, path: '/attendance', key: 'attendance' },
+    { icon: DollarSign, label: t.salary, path: '/salary', key: 'salary' },
     { icon: BarChart3, label: t.reports, path: '/reports', key: 'reports' },
     { icon: Settings, label: t.settings, path: '/settings', key: 'settings' }
   ];

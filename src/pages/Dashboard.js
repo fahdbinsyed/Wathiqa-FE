@@ -2,23 +2,23 @@
 import React, { useMemo } from 'react';
 import {
   Users, FileText, AlertCircle, CheckCircle,
-  TrendingUp, Activity
+  TrendingUp, Activity, Building2, UserCheck, Car
 } from 'lucide-react';
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import PageHeader from '../components/PageHeader';
 import DashboardCard from '../components/DashboardCard';
-import DocumentTable from '../components/DocumentTable';
 import StatusBadge from '../components/StatusBadge';
 import { useEmployees } from '../hooks/useEmployees';
 import { useDocuments } from '../hooks/useDocuments';
 import { useSettings } from '../hooks/useSettings';
+import { mockCompanyDocuments } from '../data/mockCompanyDocuments';
+import { mockVehicleDocuments } from '../data/mockVehicleDocuments';
 import { formatDateToDisplay, calculateDaysRemaining } from '../utils/dateUtils';
 import { getStatusColor } from '../utils/statusUtils';
 import '../styles/Dashboard.css';
 
 const Dashboard = () => {
   const { employees } = useEmployees();
-  const { documents } = useDocuments();
+  const { documents } = useDocuments(); // employee documents only
   const { language, selectedBranch } = useSettings();
 
   const translations = {
@@ -26,7 +26,9 @@ const Dashboard = () => {
       title: 'Dashboard',
       description: 'Overview of your employee documents and compliance status',
       totalEmployees: 'Total Employees',
-      totalDocuments: 'Total Documents',
+      totalCompanyDocuments: 'Company Documents',
+      totalEmployeeDocuments: 'Employee Documents',
+      totalVehicleDocuments: 'Vehicle Documents',
       expiringDocuments: 'Expiring Soon',
       expiredDocuments: 'Expired Documents',
       documentStatus: 'Document Status Distribution',
@@ -40,7 +42,9 @@ const Dashboard = () => {
       title: 'لوحة التحكم',
       description: 'نظرة عامة على مستندات الموظفين وحالة الامتثال',
       totalEmployees: 'إجمالي الموظفين',
-      totalDocuments: 'إجمالي المستندات',
+      totalCompanyDocuments: 'وثائق الشركة',
+      totalEmployeeDocuments: 'وثائق الموظفين',
+      totalVehicleDocuments: 'وثائق المركبات',
       expiringDocuments: 'ينتهي قريباً',
       expiredDocuments: 'منتهية الصلاحية',
       documentStatus: 'توزيع حالة المستندات',
@@ -54,25 +58,38 @@ const Dashboard = () => {
 
   const t = translations[language] || translations.en;
 
-  // Calculate statistics with branch filter
   const stats = useMemo(() => {
     // Filter employees by branch
     const filteredEmployees = selectedBranch && selectedBranch !== 'All'
       ? employees.filter(emp => emp.branch === selectedBranch)
       : employees;
-    
-    // Get document for filtered employees
+
+    // Employee documents - filtered by branch via employeeId
     const employeeIds = filteredEmployees.map(emp => emp.employeeId);
-    const filteredDocs = documents.filter(doc => employeeIds.includes(doc.employeeId));
-    
-    const validCount = filteredDocs.filter(d => d.status === 'Valid').length;
-    const expiringCount = filteredDocs.filter(d => d.status === 'Expiring Soon').length;
-    const expiredCount = filteredDocs.filter(d => d.status === 'Expired').length;
-    const totalCount = filteredDocs.length;
+    const filteredEmployeeDocs = documents.filter(doc =>
+      employeeIds.includes(doc.employeeId)
+    );
+
+    // Company documents - filtered by branch
+    const filteredCompanyDocs = selectedBranch && selectedBranch !== 'All'
+      ? mockCompanyDocuments.filter(d => d.branchName === selectedBranch || d.branchId === selectedBranch)
+      : mockCompanyDocuments;
+
+    // Vehicle documents - filtered by branch
+    const filteredVehicleDocs = selectedBranch && selectedBranch !== 'All'
+      ? mockVehicleDocuments.filter(d => d.branchName === selectedBranch || d.branchId === selectedBranch)
+      : mockVehicleDocuments;
+
+    // Employee doc status counts
+    const validCount = filteredEmployeeDocs.filter(d => d.status === 'Valid').length;
+    const expiringCount = filteredEmployeeDocs.filter(d => d.status === 'Expiring Soon').length;
+    const expiredCount = filteredEmployeeDocs.filter(d => d.status === 'Expired').length;
 
     return {
       totalEmployees: filteredEmployees.length,
-      totalDocuments: totalCount,
+      totalCompanyDocuments: filteredCompanyDocs.length,
+      totalEmployeeDocuments: filteredEmployeeDocs.length,
+      totalVehicleDocuments: filteredVehicleDocs.length,
       expiringDocuments: expiringCount,
       expiredDocuments: expiredCount,
       validCount,
@@ -81,36 +98,12 @@ const Dashboard = () => {
     };
   }, [documents, employees, selectedBranch]);
 
-  // Prepare chart data
   const statusChartData = useMemo(() => [
     { name: t.valid, value: stats.validCount, color: '#22C55E' },
     { name: t.expiringS, value: stats.expiringCount, color: '#F59E0B' },
     { name: t.expired, value: stats.expiredCount, color: '#EF4444' }
   ].filter(item => item.value > 0), [stats, t]);
 
-  const departmentChartData = useMemo(() => {
-    const deptMap = {};
-    employees.forEach(emp => {
-      if (!deptMap[emp.department]) {
-        deptMap[emp.department] = { total: 0, valid: 0 };
-      }
-      deptMap[emp.department].total++;
-    });
-
-    documents.forEach(doc => {
-      const emp = employees.find(e => e.employeeId === doc.employeeId);
-      if (emp && doc.status === 'Valid') {
-        deptMap[emp.department].valid++;
-      }
-    });
-
-    return Object.keys(deptMap).map(dept => ({
-      name: dept,
-      compliance: deptMap[dept].total > 0 ? Math.round((deptMap[dept].valid / deptMap[dept].total) * 100) : 0
-    }));
-  }, [employees, documents]);
-
-  // Get expiring soon documents
   const expiringDocuments = useMemo(() => {
     return documents
       .filter(d => d.status === 'Expiring Soon')
@@ -127,13 +120,11 @@ const Dashboard = () => {
     const today = new Date();
     const expDate = new Date(expiryDate);
     const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
-
-    if (diffDays < 0) return "Expired";
-    if (diffDays <= 30) return "Expiring Soon";
-
-    return "Valid";
+    if (diffDays < 0) return 'Expired';
+    if (diffDays <= 30) return 'Expiring Soon';
+    return 'Valid';
   };
-  
+
   return (
     <div className="dashboard-page">
       <PageHeader
@@ -151,9 +142,21 @@ const Dashboard = () => {
           color="primary"
         />
         <DashboardCard
-          title={t.totalDocuments}
-          value={stats.totalDocuments}
-          icon={FileText}
+          title={t.totalCompanyDocuments}
+          value={stats.totalCompanyDocuments}
+          icon={Building2}
+          color="primary"
+        />
+        <DashboardCard
+          title={t.totalEmployeeDocuments}
+          value={stats.totalEmployeeDocuments}
+          icon={UserCheck}
+          color="primary"
+        />
+        <DashboardCard
+          title={t.totalVehicleDocuments}
+          value={stats.totalVehicleDocuments}
+          icon={Car}
           color="primary"
         />
         <DashboardCard
@@ -169,60 +172,6 @@ const Dashboard = () => {
           color="danger"
         />
       </div>
-
-      {/* 
-      <div className="charts-grid">
-        {/* Status Distribution * /}
-        <div className="chart-card">
-          <h3>{t.documentStatus}</h3>
-          <div className="chart-container">
-            {statusChartData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={statusChartData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, value }) => `${name}: ${value}`}
-                    outerRadius={100}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {statusChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            ) : (
-              <p className="no-data">No data available</p>
-            )}
-          </div>
-        </div>
-
-        {/* Department Compliance * /}
-        <div className="chart-card">
-          <h3>{t.departmentCompliance}</h3>
-          <div className="chart-container">
-            {departmentChartData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={departmentChartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="compliance" fill={getStatusColor('Valid')} radius={[8, 8, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <p className="no-data">No data available</p>
-            )}
-          </div>
-        </div>
-      </div>
-      */}
 
       {/* Expiring Documents Table */}
       <div className="expiring-section">
@@ -243,7 +192,7 @@ const Dashboard = () => {
                 {expiringDocuments.map((doc) => (
                   <tr key={doc.documentId}>
                     <td className="emp-name">{getEmployeeName(doc.employeeId)}</td>
-                    <td>{doc.documentType ?? "Null"}</td>
+                    <td>{doc.documentType ?? 'Null'}</td>
                     <td>{formatDateToDisplay(doc.expiryDate)}</td>
                     <td>
                       <span className="days-badge">
