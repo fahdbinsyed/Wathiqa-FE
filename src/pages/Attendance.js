@@ -170,15 +170,15 @@ const Attendance = () => {
 
   return (
     <div className="attendance-page">
-      <PageHeader title={t.title} description={t.description} />
+      <PageHeader title={t.title} description={t.description} icon={Clock}/>
 
       {/* Stats */}
-      <div className="attendance-stats-grid">
+      {/* <div className="attendance-stats-grid">
         <DashboardCard title={t.totalPresent} value={stats.present} icon={CheckCircle} color="success"  />
         <DashboardCard title={t.totalAbsent}  value={stats.absent}  icon={AlertCircle} color="danger"   />
         <DashboardCard title={t.totalLate}    value={stats.late}    icon={Clock}       color="warning"  />
         <DashboardCard title={t.onLeave}      value={stats.onLeave} icon={Calendar}    color="primary"  />
-      </div>
+      </div> */}
 
       {/* Toolbar */}
       <div className="attendance-toolbar">

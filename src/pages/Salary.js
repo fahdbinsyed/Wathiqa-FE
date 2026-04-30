@@ -139,7 +139,7 @@ const Salary = () => {
 
   return (
     <div className="salary-page">
-      <PageHeader title={t.title} description={t.description} />
+      <PageHeader title={t.title} description={t.description} icon={DollarSign}/>
 
       {/* Stats */}
       {/* <div className="salary-stats-grid">
