@@ -31,40 +31,55 @@ const Dashboard = () => {
   const { documents } = useDocuments();
   const { language, selectedBranch } = useSettings();
 
-  const translations = {
-    en: {
-      title: 'Dashboard',
-      description: 'Overview of your employee documents and compliance status',
-      totalEmployees: 'Total Employees',
-      totalCompanyDocuments: 'Company Documents',
-      totalEmployeeDocuments: 'Employee Documents',
-      totalVehicleDocuments: 'Vehicle Documents',
-      expiringDocuments: 'Expiring Soon',
-      expiredDocuments: 'Expired Documents',
-      documentStatus: 'Document Status Distribution',
-      departmentCompliance: 'Department Compliance',
-      recentExpiringDocuments: 'Recently Expiring Documents',
-      valid: 'Valid',
-      expiringS: 'Expiring Soon',
-      expired: 'Expired'
-    },
-    ar: {
-      title: 'لوحة التحكم',
-      description: 'نظرة عامة على مستندات الموظفين وحالة الامتثال',
-      totalEmployees: 'إجمالي الموظفين',
-      totalCompanyDocuments: 'وثائق الشركة',
-      totalEmployeeDocuments: 'وثائق الموظفين',
-      totalVehicleDocuments: 'وثائق المركبات',
-      expiringDocuments: 'ينتهي قريباً',
-      expiredDocuments: 'منتهية الصلاحية',
-      documentStatus: 'توزيع حالة المستندات',
-      departmentCompliance: 'امتثال القسم',
-      recentExpiringDocuments: 'المستندات التي تنتهي مؤخراً',
-      valid: 'صحيح',
-      expiringS: 'ينتهي قريباً',
-      expired: 'منتهية الصلاحية'
-    }
-  };
+const translations = {
+  en: {
+    title: 'Dashboard',
+    description: 'Overview of your employee documents and compliance status',
+
+    totalEmployees: 'Total Employees',
+    totalCompanyDocuments: 'Company Documents',
+    totalEmployeeDocuments: 'Employee Documents',
+    totalVehicleDocuments: 'Vehicle Documents',
+
+    expiringDocuments: 'Expiring Soon',
+    expiredDocuments: 'Expired Documents',
+
+    employeeDocumentStatus: 'Employee Document Status Distribution',
+    companyDocumentStatus: 'Company Document Status Distribution',
+    vehicleDocumentStatus: 'Vehicle Document Status Distribution',
+
+    departmentCompliance: 'Department Compliance',
+    recentExpiringDocuments: 'Recently Expiring Documents',
+
+    valid: 'Valid',
+    expiringS: 'Expiring Soon',
+    expired: 'Expired'
+  },
+
+  ar: {
+    title: 'لوحة التحكم',
+    description: 'نظرة عامة على مستندات الموظفين وحالة الامتثال',
+
+    totalEmployees: 'إجمالي الموظفين',
+    totalCompanyDocuments: 'وثائق الشركة',
+    totalEmployeeDocuments: 'وثائق الموظفين',
+    totalVehicleDocuments: 'وثائق المركبات',
+
+    expiringDocuments: 'ينتهي قريباً',
+    expiredDocuments: 'المستندات المنتهية',
+
+    employeeDocumentStatus: 'توزيع حالة مستندات الموظفين',
+    companyDocumentStatus: 'توزيع حالة مستندات الشركة',
+    vehicleDocumentStatus: 'توزيع حالة مستندات المركبات',
+
+    departmentCompliance: 'امتثال الأقسام',
+    recentExpiringDocuments: 'المستندات التي تنتهي قريباً',
+
+    valid: 'ساري',
+    expiringS: 'ينتهي قريباً',
+    expired: 'منتهي'
+  }
+};
 
   const t = translations[language] || translations.en;
 
@@ -265,9 +280,39 @@ const Dashboard = () => {
       </div>
   
       <div className="charts-grid">
-        {/* Status Distribution */}
+        {/* Company Document Status Distribution */}
         <div className="chart-card">
-          <h3>{t.documentStatus}</h3>
+            <h3>{t.companyDocumentStatus}</h3>
+            <div className="chart-container">
+            {companyStatusChartData.length > 0 ? (
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={companyStatusChartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, value }) => `${name}: ${value}`}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {companyStatusChartData.map((entry, index) => (
+                      <Cell key={`cell-company-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <p className="no-data">No data available</p>
+            )}
+          </div>
+        </div>
+
+        {/* Employee Document Status Distribution */}
+        <div className="chart-card">
+          <h3>{t.employeeDocumentStatus}</h3>
           <div className="chart-container">
             {statusChartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
@@ -294,65 +339,36 @@ const Dashboard = () => {
             )}
           </div>
         </div>
-{/* Company Document Status Distribution */}
-<div className="chart-card">
-  <h3>Company Document Status Distribution</h3>
-  <div className="chart-container">
-    {companyStatusChartData.length > 0 ? (
-      <ResponsiveContainer width="100%" height={300}>
-        <PieChart>
-          <Pie
-            data={companyStatusChartData}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            label={({ name, value }) => `${name}: ${value}`}
-            outerRadius={100}
-            fill="#8884d8"
-            dataKey="value"
-          >
-            {companyStatusChartData.map((entry, index) => (
-              <Cell key={`cell-company-${index}`} fill={entry.color} />
-            ))}
-          </Pie>
-          <Tooltip />
-        </PieChart>
-      </ResponsiveContainer>
-    ) : (
-      <p className="no-data">No data available</p>
-    )}
-  </div>
-</div>
         
         {/* Vehicle Document Status Distribution */}
-<div className="chart-card">
-  <h3>Vehicle Document Status Distribution</h3>
-  <div className="chart-container">
-    {vehicleStatusChartData.length > 0 ? (
-      <ResponsiveContainer width="100%" height={300}>
-        <PieChart>
-          <Pie
-            data={vehicleStatusChartData}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            label={({ name, value }) => `${name}: ${value}`}
-            outerRadius={100}
-            fill="#8884d8"
-            dataKey="value"
-          >
-            {vehicleStatusChartData.map((entry, index) => (
-              <Cell key={`cell-vehicle-${index}`} fill={entry.color} />
-            ))}
-          </Pie>
-          <Tooltip />
-        </PieChart>
-      </ResponsiveContainer>
-    ) : (
-      <p className="no-data">No data available</p>
-    )}
-  </div>
-</div>
+        <div className="chart-card">
+          <h3>{t.vehicleDocumentStatus}</h3>
+          <div className="chart-container">
+            {vehicleStatusChartData.length > 0 ? (
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={vehicleStatusChartData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, value }) => `${name}: ${value}`}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {vehicleStatusChartData.map((entry, index) => (
+                      <Cell key={`cell-vehicle-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            ) : (
+              <p className="no-data">No data available</p>
+            )}
+          </div>
+        </div>
         
         {/* Department Compliance */}
         <div className="chart-card">
