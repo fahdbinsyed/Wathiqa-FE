@@ -32,8 +32,8 @@ const DocumentTable = ({ documents, employees, onEdit, onDelete }) => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
-  const getEmployeeName = (employeeId) => {
-    const employee = employees.find((emp) => emp.employeeId === employeeId);
+  const getEmployeeName = (iqamaId) => {
+    const employee = employees.find((emp) => emp.iqamaId === iqamaId);
     return employee ? employee.fullName : 'Unknown';
   };
 
@@ -57,7 +57,7 @@ const DocumentTable = ({ documents, employees, onEdit, onDelete }) => {
               const daysRemaining = calculateDaysRemaining(document.expiryDate);
               return (
                 <tr key={document.documentId}>
-                  <td>{getEmployeeName(document.employeeId)}</td>
+                  <td>{getEmployeeName(document.iqamaId)}</td>
                   <td>{document.documentType}</td>
                   <td className="mono">{document.documentNumber}</td>
                   <td>{formatDate(document.expiryDate)}</td>

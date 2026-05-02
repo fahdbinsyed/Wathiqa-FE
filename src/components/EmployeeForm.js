@@ -6,6 +6,7 @@ import '../styles/EmployeeForm.css';
 const EmployeeForm = ({ employee, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
     fullName: '',
+    iqamaId: '',
     nationality: '',
     dateOfBirth: '',
     gender: '',
@@ -33,6 +34,7 @@ const EmployeeForm = ({ employee, onSubmit, onCancel }) => {
     const newErrors = {};
 
     if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
+    if (!formData.iqamaId?.trim()) newErrors.iqamaId = 'Iqama ID is required';
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     if (!formData.mobileNumber.trim()) newErrors.mobileNumber = 'Mobile number is required';
     if (!formData.department) newErrors.department = 'Department is required';
@@ -111,6 +113,18 @@ const EmployeeForm = ({ employee, onSubmit, onCancel }) => {
                 placeholder="Enter full name"
               />
               {errors.fullName && <span className="error-message">{errors.fullName}</span>}
+            </div>
+
+            <div className="form-group">
+              <label>Iqama ID *</label>
+              <input
+                type="text"
+                name="iqamaId"
+                value={formData.iqamaId}
+                onChange={handleChange}
+                placeholder="Enter Iqama ID"
+              />
+              {errors.iqamaId && <span className="error-message">{errors.iqamaId}</span>}
             </div>
 
             <div className="form-group">

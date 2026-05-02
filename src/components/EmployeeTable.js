@@ -47,7 +47,7 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Employee ID</th>
+            <th>Iqama ID</th>
             <th>Department</th>
             <th>Job Title</th>
             <th>Email</th>
@@ -57,7 +57,7 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
         </thead>
         <tbody>
           {paginatedEmployees.map((employee) => (
-            <tr key={employee.employeeId}>
+            <tr key={employee.iqamaId}>
               <td>
                 <div className="employee-cell">
                   <img
@@ -68,7 +68,7 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
                   <span>{employee.fullName}</span>
                 </div>
               </td>
-              <td className="mono">{employee.employeeId}</td>
+              <td className="mono">{employee.iqamaId}</td>
               <td>{employee.department}</td>
               <td>{employee.jobTitle}</td>
               <td className="email">{employee.email}</td>
@@ -83,7 +83,7 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
               <td>
                 <div className="action-buttons">
                   <Link
-                    to={`/employees/${employee.employeeId}`}
+                    to={`/employees/${employee.iqamaId}`}
                     className="action-btn view-btn"
                     title="View"
                   >
@@ -98,7 +98,7 @@ const EmployeeTable = ({ employees, onEdit, onDelete }) => {
                   </button>
                   <button
                     className="action-btn delete-btn"
-                    onClick={() => onDelete(employee.employeeId)}
+                    onClick={() => onDelete(employee.iqamaId)}
                     title="Delete"
                   >
                     <Trash2 size={16} />

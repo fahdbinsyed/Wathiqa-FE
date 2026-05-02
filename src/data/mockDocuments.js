@@ -7,7 +7,7 @@ export const mockDocuments = [
   // Ahmed Khan documents
   {
     documentId: "DOC001",
-    employeeId: "EMP001",
+    iqamaId: "1234567890",
     documentType: "Iqama",
     documentNumber: "1234567890",
     issueDate: "2020-01-15",
@@ -18,7 +18,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC002",
-    employeeId: "EMP001",
+    iqamaId: "1234567890",
     documentType: "Passport",
     documentNumber: "AB123456",
     issueDate: "2019-05-10",
@@ -29,7 +29,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC003",
-    employeeId: "EMP001",
+    iqamaId: "1234567890",
     documentType: "Medical Insurance",
     documentNumber: "INS-2024-001",
     issueDate: "2024-01-01",
@@ -40,7 +40,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC004",
-    employeeId: "EMP001",
+    iqamaId: "1234567890",
     documentType: "Driving License",
     documentNumber: "DL-123456",
     issueDate: "2018-03-20",
@@ -53,7 +53,7 @@ export const mockDocuments = [
   // Ali Hassan documents
   {
     documentId: "DOC005",
-    employeeId: "EMP002",
+    iqamaId: "9876543210",
     documentType: "Iqama",
     documentNumber: "9876543210",
     issueDate: "2020-06-15",
@@ -64,7 +64,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC006",
-    employeeId: "EMP002",
+    iqamaId: "9876543210",
     documentType: "Baladiya Card",
     documentNumber: "BAL-2022-001",
     issueDate: "2022-01-01",
@@ -75,7 +75,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC007",
-    employeeId: "EMP002",
+    iqamaId: "9876543210",
     documentType: "Medical Insurance",
     documentNumber: "INS-2024-002",
     issueDate: "2024-01-01",
@@ -86,7 +86,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC008",
-    employeeId: "EMP002",
+    iqamaId: "9876543210",
     documentType: "Passport",
     documentNumber: "CD654321",
     issueDate: "2021-03-15",
@@ -99,7 +99,7 @@ export const mockDocuments = [
   // Omar Farooq documents
   {
     documentId: "DOC009",
-    employeeId: "EMP003",
+    iqamaId: "5555666677",
     documentType: "Iqama",
     documentNumber: "5555666677",
     issueDate: "2021-02-20",
@@ -110,7 +110,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC010",
-    employeeId: "EMP003",
+    iqamaId: "5555666677",
     documentType: "Visa Copy",
     documentNumber: "VISA-001",
     issueDate: "2023-01-15",
@@ -121,7 +121,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC011",
-    employeeId: "EMP003",
+    iqamaId: "5555666677",
     documentType: "Contract Copy",
     documentNumber: "CTR-EMP003-001",
     issueDate: "2021-02-20",
@@ -132,7 +132,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC012",
-    employeeId: "EMP003",
+    iqamaId: "5555666677",
     documentType: "Medical Insurance",
     documentNumber: "INS-2024-003",
     issueDate: "2024-01-01",
@@ -145,7 +145,7 @@ export const mockDocuments = [
   // Yusuf Ali documents
   {
     documentId: "DOC013",
-    employeeId: "EMP004",
+    iqamaId: "1111222233",
     documentType: "Iqama",
     documentNumber: "1111222233",
     issueDate: "2019-09-01",
@@ -156,7 +156,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC014",
-    employeeId: "EMP004",
+    iqamaId: "1111222233",
     documentType: "Passport",
     documentNumber: "EF987654",
     issueDate: "2018-07-10",
@@ -167,7 +167,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC015",
-    employeeId: "EMP004",
+    iqamaId: "1111222233",
     documentType: "Baladiya Card",
     documentNumber: "BAL-2023-456",
     issueDate: "2023-01-01",
@@ -178,7 +178,7 @@ export const mockDocuments = [
 },
   {
     documentId: "DOC016",
-    employeeId: "EMP004",
+    iqamaId: "1111222233",
     documentType: "Medical Insurance",
     documentNumber: "INS-2024-004",
     issueDate: "2024-01-01",
@@ -189,7 +189,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC017",
-    employeeId: "EMP004",
+    iqamaId: "1111222233",
     documentType: "Driving License",
     documentNumber: "DL-987654",
     issueDate: "2020-09-01",
@@ -202,7 +202,7 @@ export const mockDocuments = [
   // Ibrahim Malik documents
   {
     documentId: "DOC018",
-    employeeId: "EMP005",
+    iqamaId: "3333444455",
     documentType: "Iqama",
     documentNumber: "3333444455",
     issueDate: "2020-11-15",
@@ -213,7 +213,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC019",
-    employeeId: "EMP005",
+    iqamaId: "3333444455",
     documentType: "Medical Insurance",
     documentNumber: "INS-2024-005",
     issueDate: "2024-01-01",
@@ -224,7 +224,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC020",
-    employeeId: "EMP005",
+    iqamaId: "3333444455",
     documentType: "Passport",
     documentNumber: "GH456789",
     issueDate: "2022-06-10",
@@ -237,7 +237,7 @@ export const mockDocuments = [
   // Fatima Al-Dosari documents
   {
     documentId: "DOC021",
-    employeeId: "EMP006",
+    iqamaId: "6666777788",
     documentType: "Iqama",
     documentNumber: "6666777788",
     issueDate: "2021-05-10",
@@ -248,7 +248,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC022",
-    employeeId: "EMP006",
+    iqamaId: "6666777788",
     documentType: "Medical Insurance",
     documentNumber: "INS-2024-006",
     issueDate: "2024-01-01",
@@ -259,7 +259,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC023",
-    employeeId: "EMP006",
+    iqamaId: "6666777788",
     documentType: "Baladiya Card",
     documentNumber: "BAL-2024-789",
     issueDate: "2024-01-01",
@@ -272,7 +272,7 @@ export const mockDocuments = [
   // Hana Al-Sharif documents
   {
     documentId: "DOC024",
-    employeeId: "EMP007",
+    iqamaId: "4444555566",
     documentType: "Iqama",
     documentNumber: "4444555566",
     issueDate: "2019-03-01",
@@ -283,7 +283,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC025",
-    employeeId: "EMP007",
+    iqamaId: "4444555566",
     documentType: "Passport",
     documentNumber: "IJ123456",
     issueDate: "2019-04-15",
@@ -294,7 +294,7 @@ export const mockDocuments = [
   },
   {
     documentId: "DOC026",
-    employeeId: "EMP007",
+    iqamaId: "4444555566",
     documentType: "Medical Insurance",
     documentNumber: "INS-2024-007",
     issueDate: "2024-01-01",
@@ -307,7 +307,7 @@ export const mockDocuments = [
   // Mohammed Saeed documents
   {
     documentId: "DOC027",
-    employeeId: "EMP008",
+    iqamaId: "7777888899",
     documentType: "Iqama",
     documentNumber: "7777888899",
     issueDate: "2020-07-22",
@@ -318,7 +318,7 @@ export const mockDocuments = [
 },
   {
     documentId: "DOC028",
-    employeeId: "EMP008",
+    iqamaId: "7777888899",
     documentType: "Visa Copy",
     documentNumber: "VISA-002",
     issueDate: "2022-08-20",
@@ -329,7 +329,7 @@ export const mockDocuments = [
     },
   {
     documentId: "DOC029",
-    employeeId: "EMP008",
+    iqamaId: "7777888899",
     documentType: "Medical Insurance",
     documentNumber: "INS-2024-008",
     issueDate: "2024-01-01",
@@ -342,7 +342,7 @@ export const mockDocuments = [
   // Noor Hassan documents
   {
     documentId: "DOC030",
-    employeeId: "EMP009",
+    iqamaId: "9999000011",
     documentType: "Iqama",
     documentNumber: "9999000011",
     issueDate: "2022-01-10",
@@ -353,7 +353,7 @@ export const mockDocuments = [
 },
   {
     documentId: "DOC031",
-    employeeId: "EMP009",
+    iqamaId: "9999000011",
     documentType: "Medical Insurance",
     documentNumber: "INS-2024-009",
     issueDate: "2024-01-01",
@@ -364,7 +364,7 @@ export const mockDocuments = [
 },
   {
     documentId: "DOC032",
-    employeeId: "EMP009",
+    iqamaId: "9999000011",
     documentType: "Contract Copy",
     documentNumber: "CTR-EMP009-001",
     issueDate: "2022-01-10",

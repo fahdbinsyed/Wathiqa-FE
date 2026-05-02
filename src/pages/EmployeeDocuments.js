@@ -62,15 +62,15 @@ const EmployeeDocuments = () => {
   }, [filteredDocuments, filteredEmployees]);
 
   // Get expiring soon documents (employee only)
-  const getEmployeeName = (employeeId) => {
-    const emp = employees.find(e => e.employeeId === employeeId);
+  const getEmployeeName = (iqamaId) => {
+    const emp = employees.find(e => e.iqamaId === iqamaId);
     return emp ? emp.fullName : 'Unknown';
   };
 
   const expiringDocuments = useMemo(() => {
     return filteredDocuments
       .filter(d => d.status === 'Expiring Soon')
-      .map(d => ({ ...d, entityName: getEmployeeName(d.employeeId) }))
+      .map(d => ({ ...d, entityName: getEmployeeName(d.iqamaId) }))
       .sort((a, b) => calculateDaysRemaining(a.expiryDate) - calculateDaysRemaining(b.expiryDate))
       .slice(0, 10);
   }, [filteredDocuments, employees]);

@@ -78,6 +78,8 @@ body.dark-mode .expiring-section {
 
 .expiring-table-wrapper {
   overflow-x: auto;
+  max-height: 250px;
+  overflow-y: auto;
 }
 
 .expiring-table {
@@ -95,6 +97,9 @@ body.dark-mode .expiring-section {
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 body.dark-mode .expiring-table th {

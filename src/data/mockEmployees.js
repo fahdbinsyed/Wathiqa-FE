@@ -1,7 +1,6 @@
 // Mock Employees Data
 export const mockEmployees = [
   {
-    employeeId: "EMP001",
     fullName: "Ahmed Khan",
     profilePhoto: "/data/no-dp.jpg",
     nationality: "Saudi",
@@ -14,10 +13,10 @@ export const mockEmployees = [
     manager: "Mohammed Ali",
     joiningDate: "2020-01-15",
     employeeStatus: "Active",
-    branch: "BR001"
+    branch: "BR001",
+    iqamaId: "1234567890"
   },
   {
-    employeeId: "EMP002",
     fullName: "Ali Hassan",
     profilePhoto: "/data/no-dp.jpg",
     nationality: "Saudi",
@@ -30,10 +29,10 @@ export const mockEmployees = [
     manager: "Abdullah Ahmed",
     joiningDate: "2019-06-10",
     employeeStatus: "Active",
-    branch: "BR001"
+    branch: "BR001",
+    iqamaId: "9876543210"
   },
   {
-    employeeId: "EMP003",
     fullName: "Omar Farooq",
     profilePhoto: "/data/no-dp.jpg",
     nationality: "Saudi",
@@ -46,10 +45,10 @@ export const mockEmployees = [
     manager: "Fahad Saeed",
     joiningDate: "2021-02-20",
     employeeStatus: "Active",
-    branch: "BR001"
+    branch: "BR001",
+    iqamaId: "5555666677"
   },
   {
-    employeeId: "EMP004",
     fullName: "Yusuf Ali",
     profilePhoto: "/data/no-dp.jpg",
     nationality: "Egyptian",
@@ -62,10 +61,10 @@ export const mockEmployees = [
     manager: "Samir Hussain",
     joiningDate: "2018-09-01",
     employeeStatus: "Active",
-    branch: "BR002"
+    branch: "BR002",
+    iqamaId: "1111222233"
   },
   {
-    employeeId: "EMP005",
     fullName: "Ibrahim Malik",
     profilePhoto: "/data/no-dp.jpg",
     nationality: "Saudi",
@@ -78,10 +77,10 @@ export const mockEmployees = [
     manager: "Ali Hassan",
     joiningDate: "2020-11-15",
     employeeStatus: "Active",
-    branch: "BR002"
+    branch: "BR002",
+    iqamaId: "3333444455"
   },
   {
-    employeeId: "EMP006",
     fullName: "Fatima Al-Dosari",
     profilePhoto: "/data/no-dp.jpg",
     nationality: "Saudi",
@@ -94,10 +93,10 @@ export const mockEmployees = [
     manager: "Ahmed Khan",
     joiningDate: "2021-05-10",
     employeeStatus: "Active",
-    branch: "BR003"
+    branch: "BR003",
+    iqamaId: "6666777788"
   },
   {
-    employeeId: "EMP007",
     fullName: "Hana Al-Sharif",
     profilePhoto: "/data/no-dp.jpg",
     nationality: "Saudi",
@@ -110,10 +109,10 @@ export const mockEmployees = [
     manager: "Noor Hassan",
     joiningDate: "2019-03-01",
     employeeStatus: "Active",
-    branch: "BR003"
+    branch: "BR003",
+    iqamaId: "4444555566"
   },
   {
-    employeeId: "EMP008",
     fullName: "Mohammed Saeed",
     profilePhoto: "/data/no-dp.jpg",
     nationality: "Pakistani",
@@ -126,10 +125,10 @@ export const mockEmployees = [
     manager: "Omar Farooq",
     joiningDate: "2020-07-22",
     employeeStatus: "On Leave",
-    branch: "BR004"
+    branch: "BR004",
+    iqamaId: "7777888899"
   },
   {
-    employeeId: "EMP009",
     fullName: "Noor Hassan",
     profilePhoto: "/data/no-dp.jpg",
     nationality: "Saudi",
@@ -142,10 +141,10 @@ export const mockEmployees = [
     manager: "Hana Al-Sharif",
     joiningDate: "2022-01-10",
     employeeStatus: "Active",
-    branch: "BR001"
+    branch: "BR001",
+    iqamaId: "9999000011"
   },
   {
-    employeeId: "EMP010",
     fullName: "Samir Hussain",
     profilePhoto: "/data/no-dp.jpg",
     nationality: "Lebanese",
@@ -158,6 +157,7 @@ export const mockEmployees = [
     manager: null,
     joiningDate: "2017-05-01",
     employeeStatus: "Exit",
-    branch: "BR002"
+    branch: "BR002",
+    iqamaId: "1212121212"
   }
 ];

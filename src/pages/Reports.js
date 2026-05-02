@@ -56,10 +56,9 @@ const Reports = () => {
 
   const t = translations[language] || translations.en;
 
-  // 1. Create a lookup map for employees to avoid O(n^2) lookups in the render loop
   const employeeMap = useMemo(() => {
     return employees.reduce((acc, emp) => {
-      acc[emp.employeeId] = emp;
+      acc[emp.iqamaId] = emp;
       return acc;
     }, {});
   }, [employees]);
@@ -79,7 +78,7 @@ const Reports = () => {
 
   const filteredDocuments = useMemo(() => {
     return documents.filter((doc) => {
-      const emp = employeeMap[doc.employeeId];
+      const emp = employeeMap[doc.iqamaId];
       if (typeFilter && doc.documentType !== typeFilter) return false;
       if (statusFilter && doc.status !== statusFilter) return false;
       if (departmentFilter && emp?.department !== departmentFilter)
@@ -112,7 +111,7 @@ const Reports = () => {
       t.documentStatus,
     ];
     const rows = filteredDocuments.map((doc) => {
-      const emp = employeeMap[doc.employeeId];
+      const emp = employeeMap[doc.iqamaId];
       return [
         `"${emp?.fullName || "Unknown"}"`,
         `"${emp?.department || "Unknown"}"`,
@@ -240,7 +239,7 @@ const Reports = () => {
             </thead>
             <tbody>
               {filteredDocuments.map((doc) => {
-                const emp = employeeMap[doc.employeeId];
+                const emp = employeeMap[doc.iqamaId];
                 return (
                   <tr key={doc.documentId}>
                     <td className="emp-name">{emp?.fullName || "Unknown"}</td>

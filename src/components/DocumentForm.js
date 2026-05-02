@@ -5,7 +5,7 @@ import '../styles/DocumentForm.css';
 
 const DocumentForm = ({ document, employees, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
-    employeeId: '',
+    iqamaId: '',
     documentType: 'Iqama',
     documentNumber: '',
     issueDate: '',
@@ -33,7 +33,7 @@ const DocumentForm = ({ document, employees, onSubmit, onCancel }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.employeeId) newErrors.employeeId = 'Employee is required';
+    if (!formData.iqamaId) newErrors.iqamaId = 'Employee is required';
     if (!formData.documentNumber.trim()) newErrors.documentNumber = 'Document number is required';
     if (!formData.expiryDate) newErrors.expiryDate = 'Expiry date is required';
 
@@ -90,15 +90,15 @@ const DocumentForm = ({ document, employees, onSubmit, onCancel }) => {
           <div className="form-grid">
             <div className="form-group">
               <label>Employee *</label>
-              <select name="employeeId" value={formData.employeeId} onChange={handleChange}>
+              <select name="iqamaId" value={formData.iqamaId} onChange={handleChange}>
                 <option value="">Select Employee</option>
                 {employees.map((emp) => (
-                  <option key={emp.employeeId} value={emp.employeeId}>
+                  <option key={emp.iqamaId} value={emp.iqamaId}>
                     {emp.fullName}
                   </option>
                 ))}
               </select>
-              {errors.employeeId && <span className="error-message">{errors.employeeId}</span>}
+              {errors.iqamaId && <span className="error-message">{errors.iqamaId}</span>}
             </div>
 
             <div className="form-group">

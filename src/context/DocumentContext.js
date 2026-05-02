@@ -8,7 +8,13 @@ export const DocumentContext = createContext();
 export const DocumentProvider = ({ children, reminderDays = 60 }) => {
   const [rawDocuments, setRawDocuments] = useState(() => {
     const saved = localStorage.getItem('documents');
-    return saved ? JSON.parse(saved) : mockDocuments;
+    const parsed = saved ? JSON.parse(saved) : null;
+    
+    // Fallback to mock documents if the saved data uses the old employeeId format
+    if (parsed && parsed.length > 0 && parsed[0].iqamaId) {
+      return parsed;
+    }
+    return mockDocuments;
   });
 
   // Memoize documents with calculated status based on reminderDays
@@ -46,8 +52,8 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     return documents.find(doc => doc.documentId === documentId);
   }, [documents]);
 
-  const getDocumentsByEmployeeId = useCallback((employeeId) => {
-    return documents.filter(doc => doc.employeeId === employeeId);
+  const getDocumentsByIqamaId = useCallback((iqamaId) => {
+    return documents.filter(doc => doc.iqamaId === iqamaId);
   }, [documents]);
 
   const searchDocuments = useCallback((query) => {
@@ -71,9 +77,9 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     return documents.filter(doc => doc.status === status);
   }, [documents]);
 
-  const filterByEmployeeId = useCallback((employeeId) => {
-    if (!employeeId) return documents;
-    return documents.filter(doc => doc.employeeId === employeeId);
+  const filterByIqamaId = useCallback((iqamaId) => {
+    if (!iqamaId) return documents;
+    return documents.filter(doc => doc.iqamaId === iqamaId);
   }, [documents]);
 
   const getExpiringDocuments = useCallback(() => {
@@ -99,11 +105,11 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     if (!employees || employees.length === 0) return documents;
     
     // Get employee IDs that belong to the selected branch
-    const employeeIdsInBranch = employees
+    const iqamaIdsInBranch = employees
       .filter(emp => emp.branch === branch)
-      .map(emp => emp.employeeId);
+      .map(emp => emp.iqamaId);
     
-    return documents.filter(doc => employeeIdsInBranch.includes(doc.employeeId));
+    return documents.filter(doc => iqamaIdsInBranch.includes(doc.iqamaId));
   }, [documents]);
 
   const value = {
@@ -112,11 +118,11 @@ export const DocumentProvider = ({ children, reminderDays = 60 }) => {
     updateDocument,
     deleteDocument,
     getDocumentById,
-    getDocumentsByEmployeeId,
+    getDocumentsByIqamaId,
     searchDocuments,
     filterByType,
     filterByStatus,
-    filterByEmployeeId,
+    filterByIqamaId,
     filterByBranch,
     getExpiringDocuments,
     getExpiredDocuments,

@@ -16,7 +16,7 @@ const Attendance = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [newRecord, setNewRecord] = useState({
-    employeeId: '',
+    iqamaId: '',
     date: '',
     checkIn: '',
     checkOut: '',
@@ -93,8 +93,8 @@ const Attendance = () => {
 
         const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
         data.push({
-          id: `${employee.employeeId}-${day}`,
-          employeeId: employee.employeeId,
+          id: `${employee.iqamaId}-${day}`,
+          iqamaId: employee.iqamaId,
           employeeName: employee.fullName,
           date: new Date(selectedYear, selectedMonth, day),
           status: randomStatus,
@@ -117,7 +117,7 @@ const Attendance = () => {
     const q = searchQuery.toLowerCase();
     return attendanceData.filter(r =>
       r.employeeName.toLowerCase().includes(q) ||
-      r.employeeId.toLowerCase().includes(q)
+      r.iqamaId.toLowerCase().includes(q)
     );
   }, [attendanceData, searchQuery]);
 
@@ -165,7 +165,7 @@ const Attendance = () => {
   const handleSaveRecord = () => {
     // In a real app this would call addAttendanceRecord context method
     setShowAddModal(false);
-    setNewRecord({ employeeId: '', date: '', checkIn: '', checkOut: '', status: 'present' });
+    setNewRecord({ iqamaId: '', date: '', checkIn: '', checkOut: '', status: 'present' });
   };
 
   return (
@@ -270,14 +270,14 @@ const Attendance = () => {
               <div className="attendance-form-group">
                 <label>{t.employee}</label>
                 <select
-                  value={newRecord.employeeId}
-                  onChange={(e) => setNewRecord({ ...newRecord, employeeId: e.target.value })}
+                  value={newRecord.iqamaId}
+                  onChange={(e) => setNewRecord({ ...newRecord, iqamaId: e.target.value })}
                   className="attendance-filter-select"
                   style={{ width: '100%' }}
                 >
                   <option value="">{t.selectEmployee}</option>
                   {employees.map(emp => (
-                    <option key={emp.employeeId} value={emp.employeeId}>{emp.fullName}</option>
+                    <option key={emp.iqamaId} value={emp.iqamaId}>{emp.fullName}</option>
                   ))}
                 </select>
               </div>

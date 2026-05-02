@@ -64,13 +64,7 @@ const Salary = () => {
 
   const t = translations[language] || translations.en;
 
-  // Get Iqama number from documents
-  const getIqamaNumber = (employeeId) => {
-    const iqamaDoc = documents.find(
-      d => d.employeeId === employeeId && d.documentType === 'Iqama'
-    );
-    return iqamaDoc ? iqamaDoc.documentNumber : '-';
-  };
+
 
   // Get branch name from branchId
   const branchNames = {
@@ -84,7 +78,8 @@ const Salary = () => {
 
   // Calculate salary per employee
   const calculateSalary = (employee) => {
-    const base = 5000 + (employee.employeeId.replace('EMP', '') * 500);
+    const lastDigits = parseInt(employee.iqamaId?.slice(-2) || '10');
+    const base = 5000 + (lastDigits * 50);
     const allowances = Math.round(base * 0.15);
     const deductions = Math.round(base * 0.1);
     return Math.round(base + allowances - deductions);
@@ -97,7 +92,7 @@ const Salary = () => {
         if (filterDept !== 'All' && emp.department !== filterDept) return false;
         if (searchQuery.trim()) {
           const q = searchQuery.toLowerCase();
-          const iqama = getIqamaNumber(emp.employeeId).toLowerCase();
+          const iqama = emp.iqamaId.toLowerCase();
           return (
             emp.fullName.toLowerCase().includes(q) ||
             iqama.includes(q)
@@ -106,8 +101,7 @@ const Salary = () => {
         return true;
       })
       .map(emp => ({
-        employeeId: emp.employeeId,
-        iqamaNumber: getIqamaNumber(emp.employeeId),
+        iqamaId: emp.iqamaId,
         fullName: emp.fullName,
         department: emp.department,
         branch: getBranchName(emp.branch),
@@ -200,8 +194,8 @@ const Salary = () => {
           </thead>
           <tbody>
             {salaryData.map((record) => (
-              <tr key={record.employeeId}>
-                <td className="salary-iqama">{record.iqamaNumber}</td>
+              <tr key={record.iqamaId}>
+                <td className="salary-iqama">{record.iqamaId}</td>
                 <td className="salary-name">{record.fullName}</td>
                 <td>{record.department}</td>
                 <td>{record.branch}</td>

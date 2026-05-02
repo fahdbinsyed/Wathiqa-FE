@@ -31,55 +31,55 @@ const Dashboard = () => {
   const { documents } = useDocuments();
   const { language, selectedBranch } = useSettings();
 
-const translations = {
-  en: {
-    title: 'Dashboard',
-    description: 'Overview of your employee documents and compliance status',
+  const translations = {
+    en: {
+      title: 'Dashboard',
+      description: 'Overview of your employee documents and compliance status',
 
-    totalEmployees: 'Total Employees',
-    totalCompanyDocuments: 'Company Documents',
-    totalEmployeeDocuments: 'Employee Documents',
-    totalVehicleDocuments: 'Vehicle Documents',
+      totalEmployees: 'Total Employees',
+      totalCompanyDocuments: 'Company Documents',
+      totalEmployeeDocuments: 'Employee Documents',
+      totalVehicleDocuments: 'Vehicle Documents',
 
-    expiringDocuments: 'Expiring Soon',
-    expiredDocuments: 'Expired Documents',
+      expiringDocuments: 'Expiring Soon',
+      expiredDocuments: 'Expired Documents',
 
-    employeeDocumentStatus: 'Employee Document Status Distribution',
-    companyDocumentStatus: 'Company Document Status Distribution',
-    vehicleDocumentStatus: 'Vehicle Document Status Distribution',
+      employeeDocumentStatus: 'Employee Document Status Distribution',
+      companyDocumentStatus: 'Company Document Status Distribution',
+      vehicleDocumentStatus: 'Vehicle Document Status Distribution',
 
-    departmentCompliance: 'Department Compliance',
-    recentExpiringDocuments: 'Recently Expiring Documents',
+      departmentCompliance: 'Department Compliance',
+      recentExpiringDocuments: 'Recently Expiring Documents',
 
-    valid: 'Valid',
-    expiringS: 'Expiring Soon',
-    expired: 'Expired'
-  },
+      valid: 'Valid',
+      expiringS: 'Expiring Soon',
+      expired: 'Expired'
+    },
 
-  ar: {
-    title: 'لوحة التحكم',
-    description: 'نظرة عامة على مستندات الموظفين وحالة الامتثال',
+    ar: {
+      title: 'لوحة التحكم',
+      description: 'نظرة عامة على مستندات الموظفين وحالة الامتثال',
 
-    totalEmployees: 'إجمالي الموظفين',
-    totalCompanyDocuments: 'وثائق الشركة',
-    totalEmployeeDocuments: 'وثائق الموظفين',
-    totalVehicleDocuments: 'وثائق المركبات',
+      totalEmployees: 'إجمالي الموظفين',
+      totalCompanyDocuments: 'وثائق الشركة',
+      totalEmployeeDocuments: 'وثائق الموظفين',
+      totalVehicleDocuments: 'وثائق المركبات',
 
-    expiringDocuments: 'ينتهي قريباً',
-    expiredDocuments: 'المستندات المنتهية',
+      expiringDocuments: 'ينتهي قريباً',
+      expiredDocuments: 'المستندات المنتهية',
 
-    employeeDocumentStatus: 'توزيع حالة مستندات الموظفين',
-    companyDocumentStatus: 'توزيع حالة مستندات الشركة',
-    vehicleDocumentStatus: 'توزيع حالة مستندات المركبات',
+      employeeDocumentStatus: 'توزيع حالة مستندات الموظفين',
+      companyDocumentStatus: 'توزيع حالة مستندات الشركة',
+      vehicleDocumentStatus: 'توزيع حالة مستندات المركبات',
 
-    departmentCompliance: 'امتثال الأقسام',
-    recentExpiringDocuments: 'المستندات التي تنتهي قريباً',
+      departmentCompliance: 'امتثال الأقسام',
+      recentExpiringDocuments: 'المستندات التي تنتهي قريباً',
 
-    valid: 'ساري',
-    expiringS: 'ينتهي قريباً',
-    expired: 'منتهي'
-  }
-};
+      valid: 'ساري',
+      expiringS: 'ينتهي قريباً',
+      expired: 'منتهي'
+    }
+  };
 
   const t = translations[language] || translations.en;
 
@@ -91,10 +91,10 @@ const translations = {
       ? employees.filter(emp => emp.branch === selectedBranch)
       : employees;
 
-    const employeeIds = filteredEmployees.map(emp => emp.employeeId);
+    const iqamaIds = filteredEmployees.map(emp => emp.iqamaId);
 
     const filteredEmployeeDocs = documents.filter(doc =>
-      employeeIds.includes(doc.employeeId)
+      iqamaIds.includes(doc.iqamaId)
     );
 
     const filteredCompanyDocs = selectedBranch && selectedBranch !== 'All'
@@ -141,10 +141,10 @@ const translations = {
       ? employees.filter(emp => emp.branch === selectedBranch)
       : employees;
 
-    const employeeIds = filteredEmployees.map(emp => emp.employeeId);
+    const iqamaIds = filteredEmployees.map(emp => emp.iqamaId);
 
     const filteredDocs = documents.filter(doc =>
-      employeeIds.includes(doc.employeeId)
+      iqamaIds.includes(doc.iqamaId)
     );
 
     const departmentMap = {};
@@ -152,7 +152,7 @@ const translations = {
     filteredEmployees.forEach(emp => {
       const dept = emp.department || 'Unknown';
 
-      const empDocs = filteredDocs.filter(d => d.employeeId === emp.employeeId);
+      const empDocs = filteredDocs.filter(d => d.iqamaId === emp.iqamaId);
 
       const validDocs = empDocs.filter(d => d.status === 'Valid').length;
       const totalDocs = empDocs.length;
@@ -185,12 +185,22 @@ const translations = {
       .filter(d => d.status === 'Expiring Soon')
       .sort((a, b) =>
         calculateDaysRemaining(a.expiryDate) - calculateDaysRemaining(b.expiryDate)
-      )
-      .slice(0, 5);
+      );
   }, [documents]);
 
-  const getEmployeeName = (employeeId) => {
-    const emp = employees.find(e => e.employeeId === employeeId);
+  // =========================
+  // EXPIRED DOCUMENTS
+  // =========================
+  const expiredDocumentsList = useMemo(() => {
+    return documents
+      .filter(d => d.status === 'Expired')
+      .sort((a, b) =>
+        new Date(b.expiryDate) - new Date(a.expiryDate)
+      );
+  }, [documents]);
+
+  const getEmployeeName = (iqamaId) => {
+    const emp = employees.find(e => e.iqamaId === iqamaId);
     return emp ? emp.fullName : 'Unknown';
   };
 
@@ -205,61 +215,61 @@ const translations = {
   };
 
   const getStatusFromDate = (expiryDate) => {
-  const today = new Date();
-  const expDate = new Date(expiryDate);
-  const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
+    const today = new Date();
+    const expDate = new Date(expiryDate);
+    const diffDays = Math.ceil((expDate - today) / (1000 * 60 * 60 * 24));
 
-  if (diffDays < 0) return 'Expired';
-  if (diffDays <= 30) return 'Expiring Soon';
-  return 'Valid';
+    if (diffDays < 0) return 'Expired';
+    if (diffDays <= 30) return 'Expiring Soon';
+    return 'Valid';
   };
-  
+
   const companyStatusChartData = useMemo(() => {
-  const filteredCompanyDocs = selectedBranch && selectedBranch !== 'All'
-    ? mockCompanyDocuments.filter(d => d.branchName === selectedBranch || d.branchId === selectedBranch)
-    : mockCompanyDocuments;
+    const filteredCompanyDocs = selectedBranch && selectedBranch !== 'All'
+      ? mockCompanyDocuments.filter(d => d.branchName === selectedBranch || d.branchId === selectedBranch)
+      : mockCompanyDocuments;
 
-  let valid = 0, expiring = 0, expired = 0;
+    let valid = 0, expiring = 0, expired = 0;
 
-  filteredCompanyDocs.forEach(doc => {
-    const status = getStatusFromDate(doc.expiryDate);
+    filteredCompanyDocs.forEach(doc => {
+      const status = getStatusFromDate(doc.expiryDate);
 
-    if (status === 'Valid') valid++;
-    else if (status === 'Expiring Soon') expiring++;
-    else expired++;
-  });
+      if (status === 'Valid') valid++;
+      else if (status === 'Expiring Soon') expiring++;
+      else expired++;
+    });
 
-  return [
-    { name: t.valid, value: valid, color: '#22C55E' },
-    { name: t.expiringS, value: expiring, color: '#F59E0B' },
-    { name: t.expired, value: expired, color: '#EF4444' }
-  ].filter(item => item.value > 0);
+    return [
+      { name: t.valid, value: valid, color: '#22C55E' },
+      { name: t.expiringS, value: expiring, color: '#F59E0B' },
+      { name: t.expired, value: expired, color: '#EF4444' }
+    ].filter(item => item.value > 0);
 
   }, [selectedBranch, t]);
-  
+
   const vehicleStatusChartData = useMemo(() => {
-  const filteredVehicleDocs = selectedBranch && selectedBranch !== 'All'
-    ? mockVehicleDocuments.filter(d => d.branchName === selectedBranch || d.branchId === selectedBranch)
-    : mockVehicleDocuments;
+    const filteredVehicleDocs = selectedBranch && selectedBranch !== 'All'
+      ? mockVehicleDocuments.filter(d => d.branchName === selectedBranch || d.branchId === selectedBranch)
+      : mockVehicleDocuments;
 
-  let valid = 0, expiring = 0, expired = 0;
+    let valid = 0, expiring = 0, expired = 0;
 
-  filteredVehicleDocs.forEach(doc => {
-    const status = getStatusFromDate(doc.expiryDate);
+    filteredVehicleDocs.forEach(doc => {
+      const status = getStatusFromDate(doc.expiryDate);
 
-    if (status === 'Valid') valid++;
-    else if (status === 'Expiring Soon') expiring++;
-    else expired++;
-  });
+      if (status === 'Valid') valid++;
+      else if (status === 'Expiring Soon') expiring++;
+      else expired++;
+    });
 
-  return [
-    { name: t.valid, value: valid, color: '#22C55E' },
-    { name: t.expiringS, value: expiring, color: '#F59E0B' },
-    { name: t.expired, value: expired, color: '#EF4444' }
-  ].filter(item => item.value > 0);
+    return [
+      { name: t.valid, value: valid, color: '#22C55E' },
+      { name: t.expiringS, value: expiring, color: '#F59E0B' },
+      { name: t.expired, value: expired, color: '#EF4444' }
+    ].filter(item => item.value > 0);
 
   }, [selectedBranch, t]);
-  
+
   return (
     <div className="dashboard-page">
 
@@ -278,12 +288,12 @@ const translations = {
         <DashboardCard title={t.expiringDocuments} value={stats.expiringDocuments} icon={AlertCircle} color="warning" />
         <DashboardCard title={t.expiredDocuments} value={stats.expiredDocuments} icon={AlertCircle} color="danger" />
       </div>
-  
+
       <div className="charts-grid">
         {/* Company Document Status Distribution */}
         <div className="chart-card">
-            <h3>{t.companyDocumentStatus}</h3>
-            <div className="chart-container">
+          <h3>{t.companyDocumentStatus}</h3>
+          <div className="chart-container">
             {companyStatusChartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
@@ -339,7 +349,7 @@ const translations = {
             )}
           </div>
         </div>
-        
+
         {/* Vehicle Document Status Distribution */}
         <div className="chart-card">
           <h3>{t.vehicleDocumentStatus}</h3>
@@ -369,7 +379,7 @@ const translations = {
             )}
           </div>
         </div>
-        
+
         {/* Department Compliance */}
         <div className="chart-card">
           <h3>{t.departmentCompliance}</h3>
@@ -396,34 +406,76 @@ const translations = {
         <h2>{t.recentExpiringDocuments}</h2>
 
         {expiringDocuments.length > 0 ? (
-          <table className="expiring-table">
-            <thead>
-              <tr>
-                <th>Employee</th>
-                <th>Document</th>
-                <th>Expiry</th>
-                <th>Days</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {expiringDocuments.map(doc => (
-                <tr key={doc.documentId}>
-                  <td>{getEmployeeName(doc.employeeId)}</td>
-                  <td>{doc.documentType}</td>
-                  <td>{formatDateToDisplay(doc.expiryDate)}</td>
-                  <td>{calculateDaysRemaining(doc.expiryDate)} days</td>
-                  <td>
-                    <StatusBadge status={getDocumentStatus(doc.expiryDate)} size="small" />
-                  </td>
+          <div className="expiring-table-wrapper">
+            <table className="expiring-table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Document</th>
+                  <th>Expiry</th>
+                  <th>Days</th>
+                  <th>Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {expiringDocuments.map(doc => (
+                  <tr key={doc.documentId}>
+                    <td>{getEmployeeName(doc.iqamaId)}</td>
+                    <td>{doc.documentType}</td>
+                    <td>{formatDateToDisplay(doc.expiryDate)}</td>
+                    <td>{calculateDaysRemaining(doc.expiryDate)} days</td>
+                    <td>
+                      <StatusBadge status={getDocumentStatus(doc.expiryDate)} size="small" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
           <div className="empty-state">
             <CheckCircle size={48} />
             <p>All documents are valid</p>
+          </div>
+        )}
+
+      </div>
+
+      {/* Expired Table */}
+      <div className="expiring-section" style={{ marginTop: '24px' }}>
+        <h2>{t.expiredDocuments}</h2>
+
+        {expiredDocumentsList.length > 0 ? (
+          <div className="expiring-table-wrapper">
+            <table className="expiring-table">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Document</th>
+                  <th>Expiry</th>
+                  <th>Days Past</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {expiredDocumentsList.map(doc => (
+                  <tr key={doc.documentId}>
+                    <td>{getEmployeeName(doc.iqamaId)}</td>
+                    <td>{doc.documentType}</td>
+                    <td>{formatDateToDisplay(doc.expiryDate)}</td>
+                    <td>{Math.abs(calculateDaysRemaining(doc.expiryDate))} days</td>
+                    <td>
+                      <StatusBadge status={getDocumentStatus(doc.expiryDate)} size="small" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="empty-state">
+            <CheckCircle size={48} />
+            <p>No expired documents</p>
           </div>
         )}
 

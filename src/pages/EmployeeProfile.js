@@ -11,14 +11,14 @@ import { formatDate } from '../utils/dateUtils';
 import '../styles/EmployeeProfile.css';
 
 const EmployeeProfile = () => {
-  const { employeeId } = useParams();
+  const { iqamaId } = useParams();
   const navigate = useNavigate();
-  const { getEmployeeById, employees } = useEmployees();
-  const { getDocumentsByEmployeeId, documents, deleteDocument } = useDocuments();
+  const { getEmployeeByIqamaId, employees } = useEmployees();
+  const { getDocumentsByIqamaId, documents, deleteDocument } = useDocuments();
   const { language } = useSettings();
 
-  const employee = getEmployeeById(employeeId);
-  const employeeDocuments = getDocumentsByEmployeeId(employeeId);
+  const employee = getEmployeeByIqamaId(iqamaId);
+  const employeeDocuments = employee ? getDocumentsByIqamaId(employee.iqamaId) : [];
 
   const translations = {
     en: {
@@ -110,7 +110,7 @@ const EmployeeProfile = () => {
   <p className="profile-job-title">{employee.jobTitle}</p>
 
   <div className="profile-meta-row">
-    <span className="profile-meta-item">ID: {employee.employeeId}</span>
+    <span className="profile-meta-item">Iqama: {employee.iqamaId}</span>
     <span className="profile-meta-item">Department: {employee.department}</span>
     <span className="profile-meta-item">
       Branch: {employee.branchName || employee.branchId || 'N/A'}

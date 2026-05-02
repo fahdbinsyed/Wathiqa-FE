@@ -103,10 +103,10 @@ const Employees = () => {
   const filteredDocuments = useMemo(() => {
     if (!selectedBranch || selectedBranch === 'All') return documents;
     // Filter documents by branch through employee association
-    const employeeIdsInBranch = employees
+    const iqamaIdsInBranch = employees
       .filter(emp => emp.branch === selectedBranch)
-      .map(emp => emp.employeeId);
-    return documents.filter(doc => employeeIdsInBranch.includes(doc.employeeId));
+      .map(emp => emp.iqamaId);
+    return documents.filter(doc => iqamaIdsInBranch.includes(doc.iqamaId));
   }, [documents, selectedBranch, employees]);
 
   const stats = useMemo(() => {
@@ -120,15 +120,15 @@ const Employees = () => {
     };
   }, [filteredDocuments, filteredEmployeesByBranch]);
 
-  const getEmployeeName = (employeeId) => {
-    const emp = employees.find(e => e.employeeId === employeeId);
+  const getEmployeeName = (iqamaId) => {
+    const emp = employees.find(e => e.iqamaId === iqamaId);
     return emp ? emp.fullName : 'Unknown';
   };
 
   const expiringDocuments = useMemo(() => {
     return filteredDocuments
       .filter(d => d.status === 'Expiring Soon')
-      .map(d => ({ ...d, entityName: getEmployeeName(d.employeeId) }))
+      .map(d => ({ ...d, entityName: getEmployeeName(d.iqamaId) }))
       .sort((a, b) => calculateDaysRemaining(a.expiryDate) - calculateDaysRemaining(b.expiryDate))
       .slice(0, 10);
   }, [filteredDocuments, employees]);
@@ -148,15 +148,15 @@ const Employees = () => {
 
   const handleUpdateEmployee = (formData) => {
     if (editingEmployee) {
-      updateEmployee(editingEmployee.employeeId, formData);
+      updateEmployee(editingEmployee.iqamaId, formData);
       setEditingEmployee(null);
       setShowForm(false);
     }
   };
 
-  const handleDeleteEmployee = (employeeId) => {
+  const handleDeleteEmployee = (iqamaId) => {
     if (window.confirm(t.deleteConfirm)) {
-      deleteEmployee(employeeId);
+      deleteEmployee(iqamaId);
     }
   };
 
@@ -246,19 +246,6 @@ const Employees = () => {
           ))}
         </select>
 
-        <select
-          value={branchFilter}
-          onChange={(e) => setBranchFilter(e.target.value)}
-          className="filter-select"
-          title={t.branchFilter}
-        >
-          <option value="">{t.allBranches}</option>
-          {branches.map((branch) => (
-            <option key={branch.id} value={branch.id}>
-              {branch.name}
-            </option>
-          ))}
-        </select>
       </div>
 
       {/* Employee Table */}
