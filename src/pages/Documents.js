@@ -10,10 +10,21 @@ import { useSettings } from '../hooks/useSettings';
 import '../styles/Documents.css';
 
 const Documents = () => {
-  const { documents, addDocument, deleteDocument, filterByType, filterByStatus, filterByBranch } = useDocuments();
+  const {
+    documents,
+    addDocument,
+    updateDocument,
+    deleteDocument,
+    filterByType,
+    filterByStatus,
+    filterByBranch
+  } = useDocuments();
+
   const { employees } = useEmployees();
   const { language, selectedBranch } = useSettings();
+
   const [showForm, setShowForm] = useState(false);
+  const [editingDocument, setEditingDocument] = useState(null); // ✅ NEW
   const [typeFilter, setTypeFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -49,7 +60,7 @@ const Documents = () => {
   const filteredDocuments = useMemo(() => {
     let filtered = documents;
 
-    // Apply branch filter from navbar
+    // Branch filter
     if (selectedBranch && selectedBranch !== 'All') {
       filtered = filterByBranch(selectedBranch, employees);
     }
@@ -71,11 +82,40 @@ const Documents = () => {
     }
 
     return filtered;
-  }, [documents, typeFilter, statusFilter, searchQuery, filterByType, filterByStatus, filterByBranch, selectedBranch, employees]);
+  }, [
+    documents,
+    typeFilter,
+    statusFilter,
+    searchQuery,
+    filterByType,
+    filterByStatus,
+    filterByBranch,
+    selectedBranch,
+    employees
+  ]);
 
-  const handleAddDocument = (formData) => {
-    addDocument(formData);
+  // ✅ Handle Edit Click
+  const handleEditDocument = (doc) => {
+    setEditingDocument(doc);
+    setShowForm(true);
+  };
+
+  // ✅ Handle Add / Update
+  const handleSubmitDocument = (formData) => {
+    if (editingDocument) {
+      updateDocument(editingDocument.documentId, formData);
+    } else {
+      addDocument(formData);
+    }
+
+    setEditingDocument(null);
     setShowForm(false);
+  };
+
+  // ✅ Handle Add button click
+  const handleOpenAddForm = () => {
+    setEditingDocument(null);
+    setShowForm(true);
   };
 
   return (
@@ -85,7 +125,7 @@ const Documents = () => {
         description={t.description}
         icon={FileText}
         actions={
-          <button className="btn btn-primary" onClick={() => setShowForm(true)}>
+          <button className="btn btn-primary" onClick={handleOpenAddForm}>
             <Plus size={20} />
             {t.addDocument}
           </button>
@@ -131,21 +171,24 @@ const Documents = () => {
         </select>
       </div>
 
-      {/* Document Table */}
+      {/* Table */}
       <DocumentTable
         documents={filteredDocuments}
         employees={employees}
-        onEdit={() => {}}
+        onEdit={handleEditDocument}   // ✅ FIXED
         onDelete={deleteDocument}
       />
 
-      {/* Document Form Modal */}
+      {/* Form Modal */}
       {showForm && (
         <DocumentForm
-          document={null}
+          document={editingDocument}   // ✅ FIXED
           employees={employees}
-          onSubmit={handleAddDocument}
-          onCancel={() => setShowForm(false)}
+          onSubmit={handleSubmitDocument}   // ✅ FIXED
+          onCancel={() => {
+            setShowForm(false);
+            setEditingDocument(null);
+          }}
         />
       )}
     </div>
